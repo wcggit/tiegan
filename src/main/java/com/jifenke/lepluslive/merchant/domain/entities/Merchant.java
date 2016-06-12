@@ -1,10 +1,13 @@
 package com.jifenke.lepluslive.merchant.domain.entities;
 
 import com.jifenke.lepluslive.global.util.MvUtil;
+import com.jifenke.lepluslive.partner.domain.entities.Partner;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -44,36 +48,170 @@ public class Merchant {
   @ManyToOne
   private MerchantType merchantType;
 
+  @ManyToOne
+  private Partner partner;
+
   private String location;
 
   private String name;
 
   private String picture;
 
-  private String phoneNumber; //商户电话
+  private String phoneNumber; //服务电话
 
   private Integer partnership; //合作关系
 
-  private Integer discount; //折扣
+  private Double lng=0.0;
 
-  private Integer rebate;  //返利
+  private Double lat=0.0;
 
-  private Double lng;
+  private String payee; //收款人
 
-  private Double lat;
+  private Integer state = 0;  //状态0 代表未开启乐店 ,
 
-  private String payee;
-
-  private Integer ljCommission;//佣金点 如果为0代表普通商户
-
-  private String merchantPhone; //绑定手机号
-
-  private Integer state = 1;
+  private Integer receiptAuth; //收款权限为1 代表可以使用乐加红包支付,0代表不能使用乐加红包
 
   private String qrCodePicture; //商户收款码
 
+  private Long userLimit; //会员绑定上线
+
+  private BigDecimal ljCommission; //乐加佣金 单位百分比
+
+  private BigDecimal ljBrokerage = new BigDecimal(0); //只有联盟商户才不为空 , 代表非乐加会员消费时,收取的手续费
+
+  private BigDecimal scoreARebate; //返a积分比 单位百分比
+
+  private BigDecimal scoreBRebate;
+
+  private String contact; //联系人
+
+  private Date createDate = new Date();
+
+  public BigDecimal getLjBrokerage() {
+    return ljBrokerage;
+  }
+
+  public void setLjBrokerage(BigDecimal ljBrokerage) {
+    this.ljBrokerage = ljBrokerage;
+  }
+
+  @OneToMany(mappedBy = "merchant",fetch = FetchType.LAZY)
+  private List<MerchantProtocol> merchantProtocols;
+
+  private Integer cycle;  //结算周期  1 一个工作日 2 2个工作日
+
+  private String merchantPhone; //绑定电话
+
+  private String officeHour; //营业时间
+
+  public String getMerchantPhone() {
+    return merchantPhone;
+  }
+
+  public void setMerchantPhone(String merchantPhone) {
+    this.merchantPhone = merchantPhone;
+  }
+
+  public String getOfficeHour() {
+    return officeHour;
+  }
+
+  public void setOfficeHour(String officeHour) {
+    this.officeHour = officeHour;
+  }
+
+  public Integer getCycle() {
+    return cycle;
+  }
+
+  public void setCycle(Integer cycle) {
+    this.cycle = cycle;
+  }
+
+  public List<MerchantProtocol> getMerchantProtocols() {
+    return merchantProtocols;
+  }
+
+  public void setMerchantProtocols(List<MerchantProtocol> merchantProtocols) {
+    this.merchantProtocols = merchantProtocols;
+  }
+
+  public String getContact() {
+    return contact;
+  }
+
+  public void setContact(String contact) {
+    this.contact = contact;
+  }
+
+  public BigDecimal getScoreBRebate() {
+    return scoreBRebate;
+  }
+
+  public void setScoreBRebate(BigDecimal scoreBRebate) {
+    this.scoreBRebate = scoreBRebate;
+  }
+
+  public BigDecimal getLjCommission() {
+    return ljCommission;
+  }
+
+  public void setLjCommission(BigDecimal ljCommission) {
+    this.ljCommission = ljCommission;
+  }
+
+  public BigDecimal getScoreARebate() {
+    return scoreARebate;
+  }
+
+  public void setScoreARebate(BigDecimal scoreARebate) {
+    this.scoreARebate = scoreARebate;
+  }
+
+  public Date getCreateDate() {
+    return createDate;
+  }
+
+  public void setCreateDate(Date createDate) {
+    this.createDate = createDate;
+  }
+
+  public Long getUserLimit() {
+    return userLimit;
+  }
+
+  public void setUserLimit(Long userLimit) {
+    this.userLimit = userLimit;
+  }
+
+  public Partner getPartner() {
+    return partner;
+  }
+
+  public void setPartner(Partner partner) {
+    this.partner = partner;
+  }
+
+
+  public Long getLimit() {
+    return userLimit;
+  }
+
+  public void setLimit(Long userLimit) {
+    this.userLimit = userLimit;
+  }
+
   @ManyToOne
   private Area area;
+
+  public Integer getReceiptAuth() {
+    return receiptAuth;
+  }
+
+  public void setReceiptAuth(Integer receiptAuth) {
+    this.receiptAuth = receiptAuth;
+  }
+
 
   public String getQrCodePicture() {
     return qrCodePicture;
@@ -91,13 +229,6 @@ public class Merchant {
     this.state = state;
   }
 
-  public String getMerchantPhone() {
-    return merchantPhone;
-  }
-
-  public void setMerchantPhone(String merchantPhone) {
-    this.merchantPhone = merchantPhone;
-  }
 
   public Integer getPartnership() {
     return partnership;
@@ -105,14 +236,6 @@ public class Merchant {
 
   public void setPartnership(Integer partnership) {
     this.partnership = partnership;
-  }
-
-  public Integer getLjCommission() {
-    return ljCommission;
-  }
-
-  public void setLjCommission(Integer ljCommission) {
-    this.ljCommission = ljCommission;
   }
 
   public String getPayee() {
@@ -155,21 +278,6 @@ public class Merchant {
     this.phoneNumber = phoneNumber;
   }
 
-  public Integer getDiscount() {
-    return discount;
-  }
-
-  public void setDiscount(Integer discount) {
-    this.discount = discount;
-  }
-
-  public Integer getRebate() {
-    return rebate;
-  }
-
-  public void setRebate(Integer rebate) {
-    this.rebate = rebate;
-  }
 
   public MerchantType getMerchantType() {
     return merchantType;

@@ -1,7 +1,7 @@
 package com.jifenke.lepluslive.global.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jifenke.lepluslive.wxpay.domain.entities.AccessToken;
+import com.jifenke.lepluslive.weixin.domain.entities.AccessToken;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

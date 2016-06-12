@@ -1,6 +1,9 @@
 package com.jifenke.lepluslive.shiro.config;
 
 
+import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
+import com.jifenke.lepluslive.merchant.service.MerchantService;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -30,13 +33,14 @@ public class MyShiroRealm extends AuthorizingRealm implements ApplicationContext
   @Override
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
       throws AuthenticationException {
-//    ManageUserRepository manageUserRepository =
-//        (ManageUserRepository) applicationContext.getBean("manageUserRepository");
-//    UsernamePasswordToken token=(UsernamePasswordToken) authenticationToken;
-//    ManageUser manageUser = manageUserRepository.findUserByName(token.getUsername());
-//    if(manageUser!=null){
-//      return new SimpleAuthenticationInfo(manageUser.getName(), manageUser.getPassword(), getName());
-//    }
+    MerchantService merchantService =
+        (MerchantService) applicationContext.getBean("merchantService");
+    UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+    MerchantUser merchantUser = merchantService.findMerchantUserByName(token.getUsername());
+    if (merchantUser != null) {
+      return new SimpleAuthenticationInfo(merchantUser.getName(), merchantUser.getPassword(),
+                                          getName());
+    }
 
     return null;
   }

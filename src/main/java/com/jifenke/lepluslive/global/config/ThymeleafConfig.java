@@ -4,17 +4,11 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManagerFactory;
 
 
 /**
@@ -22,9 +16,6 @@ import javax.persistence.EntityManagerFactory;
  */
 @Configuration
 public class ThymeleafConfig {
-//    @Inject
-//    private EntityManagerFactory entityManagerFactory;
-
 
     @Bean
     public FilterRegistrationBean openEntityManagerInViewFilter() {
@@ -34,9 +25,7 @@ public class ThymeleafConfig {
         return reg;
     }
 
-
-
-    @Bean
+   @Bean
     public InternalResourceViewResolver internalResourceViewResolver(){
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/");
@@ -67,5 +56,6 @@ public class ThymeleafConfig {
         resolver.setTemplateEngine(templateEngine());
         return resolver;
     }
+
 
 }

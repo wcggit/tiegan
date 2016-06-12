@@ -4,7 +4,7 @@ import com.jifenke.lepluslive.lejiauser.domain.entities.LeJiaUser;
 import com.jifenke.lepluslive.order.domain.entities.OffLineOrder;
 import com.jifenke.lepluslive.score.domain.entities.ScoreB;
 import com.jifenke.lepluslive.score.domain.entities.ScoreBDetail;
-import com.jifenke.lepluslive.wxpay.domain.entities.WeiXinUser;
+import com.jifenke.lepluslive.weixin.domain.entities.WeiXinUser;
 import com.jifenke.lepluslive.score.repository.ScoreBDetailRepository;
 import com.jifenke.lepluslive.score.repository.ScoreBRepository;
 

@@ -38,4 +38,11 @@ public class MerchantType {
   public void setName(String name) {
     this.name = name;
   }
+
+  public MerchantType(Long id) {
+    this.id = id;
+  }
+
+  public MerchantType() {
+  }
 }

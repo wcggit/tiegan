@@ -2,7 +2,7 @@ package com.jifenke.lepluslive.lejiauser.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jifenke.lepluslive.global.util.MvUtil;
-import com.jifenke.lepluslive.wxpay.domain.entities.WeiXinUser;
+import com.jifenke.lepluslive.weixin.domain.entities.WeiXinUser;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;

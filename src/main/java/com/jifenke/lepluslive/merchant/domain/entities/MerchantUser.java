@@ -1,9 +1,5 @@
 package com.jifenke.lepluslive.merchant.domain.entities;
 
-import com.jifenke.lepluslive.lejiauser.domain.entities.LeJiaUser;
-
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,16 +25,6 @@ public class MerchantUser {
   @ManyToOne
   private Merchant merchant;
 
-
-  private List<LeJiaUser> leJiaUsers;
-
-  public List<LeJiaUser> getLeJiaUsers() {
-    return leJiaUsers;
-  }
-
-  public void setLeJiaUsers(List<LeJiaUser> leJiaUsers) {
-    this.leJiaUsers = leJiaUsers;
-  }
 
   public Long getId() {
     return id;

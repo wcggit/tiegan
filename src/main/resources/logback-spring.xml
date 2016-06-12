@@ -24,7 +24,7 @@
 
     <logger name="com.jifenke.lepluslive" level="@logback.loglevel@"/>
     <logger name="org.quartz" level="WARN"/>
-
+    <logger name="org.apache.shiro" level="DEBUG"/>
     <logger name="javax.activation" level="WARN"/>
     <logger name="javax.mail" level="WARN"/>
     <logger name="javax.xml.bind" level="WARN"/>

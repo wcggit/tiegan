@@ -8,7 +8,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.PropertyPlaceholderAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.ServerPropertiesAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
@@ -23,6 +32,21 @@ import javax.inject.Inject;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
+//@Import({
+// DispatcherServletAutoConfiguration.class,
+// EmbeddedServletContainerAutoConfiguration.class,
+// ErrorMvcAutoConfiguration.class,
+// HttpEncodingAutoConfiguration.class,
+// HttpMessageConvertersAutoConfiguration.class,
+// JacksonAutoConfiguration.class,
+// JmxAutoConfiguration.class,
+// MultipartAutoConfiguration.class,
+// ServerPropertiesAutoConfiguration.class,
+// PropertyPlaceholderAutoConfiguration.class,
+// //  ThymeleafAutoConfiguration.class,
+// WebMvcAutoConfiguration.class,
+// //   WebSocketAutoConfiguration.class,
+//})
 public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);

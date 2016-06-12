@@ -1,75 +1,121 @@
 package com.jifenke.lepluslive.global.filter;
 
 import com.jifenke.lepluslive.global.config.Constants;
-import com.jifenke.lepluslive.wxpay.service.WeiXinUserService;
+import com.jifenke.lepluslive.global.util.CookieUtils;
+import com.jifenke.lepluslive.global.util.LejiaResult;
+import com.jifenke.lepluslive.global.util.MD5Util;
+import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
+import com.jifenke.lepluslive.merchant.domain.entities.MerchantWeiXinUser;
+import com.jifenke.lepluslive.merchant.service.MerchantService;
+import com.jifenke.lepluslive.merchant.service.MerchantWeiXinUserService;
+import com.jifenke.lepluslive.weixin.service.WeiXinUserService;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.filter.authz.AuthorizationFilter;
+import org.apache.shiro.web.util.RedirectView;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URLEncoder;
 
+import javax.inject.Inject;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by wcg on 16/4/1.
  */
-public class WeiXinFilter implements HandlerInterceptor {
+@Configuration
+public class WeiXinFilter extends AuthorizationFilter {
 
-  private WeiXinUserService weiXinUserService;
+  private MerchantWeiXinUserService merchantWeiXinUserService;
+
+
+  private ApplicationContext applicationContext;
 
   private String appId = Constants.APPID;
 
   private String weixinRootUrl = Constants.WEI_XIN_ROOT_URL;
 
 
-  @Override
   public boolean preHandle(HttpServletRequest request,
                            HttpServletResponse response, Object o) throws Exception {
-    String action = request.getRequestURI();
-    if (action.equals("/lepay/wxpay/afterPay") || action.equals("/lepay/wxpay/userRegister")) {
-      return true;
-    }
-
-    String ua = request.getHeader("user-agent")
-        .toLowerCase();
-    if (ua.indexOf("micromessenger") > 0) {// 是微信浏览器
-      if (action
-              .equals("/lepay/wxpay/userpay") || action
-              .equals("/lepay/wxpay/pay") || action
-              .equals("/lepay/wxpay/offLineOrderForUser") || action
-              .equals("/lepay/wxpay/offLineOrder") || action
-              .equals("/lepay/wxpay/afterPay") || action
-              .equals("/lepay/wxpay/payByScoreA") || action
-              .equals("/lepay/wxpay/paySuccess") || action
-              .equals("/lepay/wxpay/paySuccessForNon")) {
-        return true;
-      }
-      String[] strs = action.split("/");
-      String callbackUrl = weixinRootUrl + "/lepay/wxpay/userRegister?merchantId=" + strs[3];
-      String
-          redirectUrl =
-          "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=" +
-          URLEncoder.encode(callbackUrl, "UTF-8")
-          + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
-      response.sendRedirect(redirectUrl);
-      return false;
-    }
-    return false;
+    return true;
   }
 
-  @Override
   public void postHandle(HttpServletRequest httpServletRequest,
                          HttpServletResponse httpServletResponse, Object o,
                          ModelAndView modelAndView) throws Exception {
 
   }
 
-  @Override
   public void afterCompletion(HttpServletRequest httpServletRequest,
                               HttpServletResponse httpServletResponse, Object o, Exception e)
       throws Exception {
 
   }
 
+  public void setMerchantWeiXinUserService(MerchantWeiXinUserService merchantWeiXinUserService) {
+    this.merchantWeiXinUserService = merchantWeiXinUserService;
+  }
+
+  @Override
+  protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse,
+                                    Object o) throws Exception {
+    HttpServletRequest request = (HttpServletRequest) servletRequest;
+    HttpServletResponse response = (HttpServletResponse) servletResponse;
+    //CookieUtils.setCookie(request,response,"rememberMe",null,0);
+    String action = request.getRequestURI();
+    System.out.println(action);
+    if (action.equals("/wx") || action.indexOf("/wx/userRegister") != -1 || action
+        .equals("/wx/pay")) {
+      return true;
+    }
+    String ua = request.getHeader("user-agent")
+        .toLowerCase();
+    if (ua.indexOf("micromessenger") > 0) {// 是微信浏览器
+      String openId = CookieUtils.getCookieValue(request, appId + "-user-open-id");
+      if (openId != null) {
+        MerchantWeiXinUserService merchantWeiXinUserService =
+            (MerchantWeiXinUserService) applicationContext.getBean("merchantWeiXinUserService");
+        MerchantWeiXinUser
+            merchantWeiXinUser =
+            merchantWeiXinUserService.findWeiXinUserByOpenId(openId);
+        if (merchantWeiXinUser != null) {
+          MerchantUser merchantUser = merchantWeiXinUser.getMerchantUser();
+          if (merchantUser != null) {
+            UsernamePasswordToken
+                token =
+                new UsernamePasswordToken(merchantUser.getName(), merchantUser.getPassword(),
+                                          "UTF-8");
+            //获取当前的Subject
+            //token.setRememberMe(true);
+            Subject currentUser = SecurityUtils.getSubject();
+            try {
+              //在调用了login方法后,SecurityManager会收到AuthenticationToken,并将其发送给已配置的Realm执行必须的认证检查
+              //每个Realm都能在必要时对提交的AuthenticationTokens作出反应
+              //所以这一步在调用login(token)方法时,它会走到MyRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
+              currentUser.login(token);
+            } catch (Exception uae) {
+
+            }
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
+  }
 }

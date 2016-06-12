@@ -4,6 +4,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -77,6 +78,32 @@ public class MvUtil {
   //生成商户随即号
   public static String getMerchantSid() {
     return RandomStringUtils.random(7, "1234567890");
+  }
+
+
+  //某月的第一天
+  public static Date getMonthStartDate(Integer year, Integer month,Calendar cal) {
+
+    cal.set(Calendar.YEAR, year);
+    cal.set(Calendar.MONTH,month);
+    cal.set(Calendar.DAY_OF_MONTH,1);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    return cal.getTime();
+  }
+
+
+  //某月的最后一天
+  public static Date getMonthEndDate(Integer year, Integer month,Calendar cal) {
+    cal.set(Calendar.YEAR, year);
+    cal.set(Calendar.MONTH,month+1);
+    cal.set(Calendar.DAY_OF_MONTH, 1);
+    cal.add(Calendar.DAY_OF_MONTH, -1);
+    cal.set(Calendar.SECOND, 59);
+    cal.set(Calendar.MINUTE, 59);
+    cal.set(Calendar.HOUR_OF_DAY, 23);
+    return cal.getTime();
   }
 
 }
