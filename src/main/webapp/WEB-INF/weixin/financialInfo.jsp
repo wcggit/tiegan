@@ -33,9 +33,7 @@
     <c:forEach items="${orders}" var="order">
         <li class="center"><span><fmt:formatDate value="${order.completeDate}" type="both"
                                                  pattern="HH:mm"/></span><span>￥${order.totalPrice/100}</span><span><font
-                class="wxzf"></font></span><c:if
-                test="${order.rebateWay!=1}"><span>￥${order.wxCommission/100}</span></c:if><c:if
-                test="${order.rebateWay==1}"><span>￥${order.ljCommission/100}</span></c:if></li>
+                class="wxzf"></font></span><span>￥${order.ljCommission/100}</span></li>
     </c:forEach>
     <li class="foot">
         <span class="left">总金额：￥${totalPrice/100}</span>

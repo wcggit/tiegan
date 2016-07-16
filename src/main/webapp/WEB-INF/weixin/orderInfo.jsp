@@ -30,8 +30,8 @@
     </li>
     <c:if test="${order.ljCommission==0}">
         <li class="info">
-            <span class="left">微信手续费</span>
-            <span class="right">￥${order.wxCommission/100}</span>
+            <span class="left">手续费</span>
+            <span class="right">￥${order.ljCommission/100}</span>
         </li>
     </c:if>
     <c:if test="${order.ljCommission!=0}">

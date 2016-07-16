@@ -149,33 +149,6 @@ public class WeiXinPayService {
     return sb.toString();
   }
 
-  public SortedMap buildJsapiParams(String prepayId,String orderSid) {
-    SortedMap<Object, Object> jsapiParams = new TreeMap<Object, Object>();
-    jsapiParams.put("appId", appId);
-    jsapiParams.put("timeStamp", new Date().getTime() / 1000);
-    jsapiParams.put("nonceStr", MvUtil.getRandomStr());
-    jsapiParams.put("package", "prepay_id=" + prepayId);
-    jsapiParams.put("signType", "MD5");
-    String sign = createSign("UTF-8", jsapiParams);
-    jsapiParams.put("sign", sign);
-    jsapiParams.put("orderSid", orderSid);
-    return jsapiParams;
-  }
-
-  public String getJsapiSignature(HttpServletRequest request, String noncestr, Long timestamp) {
-    StringBuffer sb = new StringBuffer();
-    sb.append("jsapi_ticket=");
-    sb.append(WeixinPayUtil.getAccessToken().getJsapiTickek());
-    sb.append("&noncestr=");
-    sb.append(noncestr);
-    sb.append("&timestamp=");
-    sb.append(timestamp);
-    sb.append("&url=");
-    sb.append(getCompleteRequestUrl(request));
-    log.debug("JsapiSignature" + sb.toString());
-    log.debug("sha1Signature" + DigestUtils.sha1Hex(sb.toString()));
-    return DigestUtils.sha1Hex(sb.toString());
-  }
 
   public String getCompleteRequestUrl(HttpServletRequest request) {
 

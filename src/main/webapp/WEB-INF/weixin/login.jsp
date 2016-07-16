@@ -36,7 +36,7 @@
     <font>温馨提示：</font>使用该用户名和密码登录后，您的微信号将和该用户名对应的乐＋商户绑定，及时收到订单和转账信息。
 </p>
 
-<p class="tel"><span class="kefu"></span>客服电话：15668852266</p>
+<p class="tel"><span class="kefu"></span>客服电话：400-0412-800</p>
 </body>
 <script>
     var flag = true;

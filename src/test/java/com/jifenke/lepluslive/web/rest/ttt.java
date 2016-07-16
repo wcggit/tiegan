@@ -4,7 +4,9 @@
 //import com.jifenke.lepluslive.global.config.Constants;
 //import com.jifenke.lepluslive.lejiauser.repository.LeJiaUserRepository;
 //import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
+//import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
 //import com.jifenke.lepluslive.merchant.repository.MerchantRepository;
+//import com.jifenke.lepluslive.merchant.service.MerchantService;
 //import com.jifenke.lepluslive.partner.domain.entities.Partner;
 //import com.jifenke.lepluslive.score.repository.ScoreARepository;
 //import com.jifenke.lepluslive.score.repository.ScoreBRepository;
@@ -25,8 +27,8 @@
 //import javax.inject.Inject;
 //
 ///**
-// * Created by wcg on 16/4/15.
-// */
+//* Created by wcg on 16/4/15.
+//*/
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringApplicationConfiguration(classes = Application.class)
 //@WebAppConfiguration
@@ -47,25 +49,15 @@
 //  @Inject
 //  private MerchantRepository merchantRepository;
 //
+//  @Inject
+//  private MerchantService merchantService;
+//
 //
 //  @Test
 //  public void tttt(){
-//    List<Merchant> all = merchantRepository.findAll();
-//    for(Merchant merchant : all){
-////      merchant.setPartner(new Partner(1L));
-////      merchant.setCreateDate(new Date());
-////      merchant.setCycle(2);
-////      merchant.setReceiptAuth(0);
-////      merchant.setScoreBRebate(new BigDecimal(50));
-////      merchant.setScoreARebate(new BigDecimal(50));
-////      merchant.setUserLimit(100L);
-////      merchant.setState(0);
-////      merchant.setContact(merchant.getPayee());
-//      if(merchant.getPartnership()==1){
-//        merchant.setLjBrokerage(new BigDecimal(0.6));
-//        merchantRepository.save(merchant);
-//      }
-//    }
+//    MerchantUser m = merchantService.findMerchantUserByName("ai果er手机饰品店");
+//    System.out.println(m);
+//
 //  }
 //
 //////  public static void main(String[] args) {

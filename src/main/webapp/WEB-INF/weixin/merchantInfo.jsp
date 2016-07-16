@@ -59,17 +59,17 @@
     </li>
     <c:if test="${merchant.ljCommission==0}">
         <li class="info">
-            <span class="left">手续费</span>
+            <span class="left">手续费率</span>
             <span class="right">0.6%</span>
         </li>
     </c:if>
     <c:if test="${merchant.ljCommission!=0}">
         <li class="info">
-            <span class="left">佣金比例</span>
+            <span class="left">手续费率</span>
             <span class="right">${merchant.ljCommission}%</span>
         </li>
     </c:if>
 </ul>
-<p class="tel">如果您想更改银行卡，请联系客服：010-56126528</p>
+<p class="tel">如果您想更改银行卡，请联系客服：400-0412-800</p>
 </body>
 </html>

@@ -300,11 +300,7 @@ public class WeixinController {
         offLineOrderService
             .findOffLineOrderByMerchantAndDate(merchant, balanceDate);
     for (OffLineOrder offLineOrder : offLineOrders) {
-      if (offLineOrder.getRebateWay() != 1) {
-        ljCommission += offLineOrder.getWxCommission();
-      } else {
         ljCommission += offLineOrder.getLjCommission();
-      }
       totalPrice += offLineOrder.getTotalPrice();
     }
     String bankNumber = merchant.getMerchantBank().getBankNumber();
