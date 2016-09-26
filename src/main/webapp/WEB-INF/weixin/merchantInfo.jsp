@@ -57,16 +57,16 @@
             <span class="right">T+2</span>
         </c:if>
     </li>
-    <c:if test="${merchant.ljCommission==0}">
+    <c:if test="${merchant.partnership==0}">
         <li class="info">
             <span class="left">手续费率</span>
             <span class="right">0.6%</span>
         </li>
     </c:if>
-    <c:if test="${merchant.ljCommission!=0}">
+    <c:if test="${merchant.partnership==1}">
         <li class="info">
-            <span class="left">手续费率</span>
-            <span class="right">${merchant.ljCommission}%</span>
+            <span class="left">乐加折扣</span>
+            <span class="right">${commission}折</span>
         </li>
     </c:if>
 </ul>

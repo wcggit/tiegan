@@ -1,9 +1,12 @@
 package com.jifenke.lepluslive.merchant.repository;
 
+import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantWeiXinUser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.QueryHints;
+
+import java.util.Optional;
 
 import javax.persistence.QueryHint;
 
@@ -14,4 +17,6 @@ public interface MerchantWeiXinUserRepository extends JpaRepository<MerchantWeiX
 
   @QueryHints({ @QueryHint(name = "org.hibernate.cacheable", value ="true") })
   MerchantWeiXinUser findByOpenId(String openid);
+
+  Optional<MerchantWeiXinUser> findByMerchantUser(MerchantUser merchantUser);
 }

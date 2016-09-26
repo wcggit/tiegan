@@ -2,29 +2,17 @@ package com.jifenke.lepluslive.global.filter;
 
 import com.jifenke.lepluslive.global.config.Constants;
 import com.jifenke.lepluslive.global.util.CookieUtils;
-import com.jifenke.lepluslive.global.util.LejiaResult;
-import com.jifenke.lepluslive.global.util.MD5Util;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantWeiXinUser;
-import com.jifenke.lepluslive.merchant.service.MerchantService;
 import com.jifenke.lepluslive.merchant.service.MerchantWeiXinUserService;
-import com.jifenke.lepluslive.weixin.service.WeiXinUserService;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
-import org.apache.shiro.web.util.RedirectView;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.net.URLEncoder;
-
-import javax.inject.Inject;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 @Configuration
 public class WeiXinFilter extends AuthorizationFilter {
 
-  private MerchantWeiXinUserService merchantWeiXinUserService;
 
 
   private ApplicationContext applicationContext;
@@ -45,27 +32,6 @@ public class WeiXinFilter extends AuthorizationFilter {
 
   private String weixinRootUrl = Constants.WEI_XIN_ROOT_URL;
 
-
-  public boolean preHandle(HttpServletRequest request,
-                           HttpServletResponse response, Object o) throws Exception {
-    return true;
-  }
-
-  public void postHandle(HttpServletRequest httpServletRequest,
-                         HttpServletResponse httpServletResponse, Object o,
-                         ModelAndView modelAndView) throws Exception {
-
-  }
-
-  public void afterCompletion(HttpServletRequest httpServletRequest,
-                              HttpServletResponse httpServletResponse, Object o, Exception e)
-      throws Exception {
-
-  }
-
-  public void setMerchantWeiXinUserService(MerchantWeiXinUserService merchantWeiXinUserService) {
-    this.merchantWeiXinUserService = merchantWeiXinUserService;
-  }
 
   @Override
   protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse,

@@ -28,16 +28,16 @@
         <span class="left">乐付金额</span>
         <span class="right">￥${order.totalPrice/100}</span>
     </li>
-    <c:if test="${order.ljCommission==0}">
+    <c:if test="${order.rebateWay!=1}">
         <li class="info">
             <span class="left">手续费</span>
             <span class="right">￥${order.ljCommission/100}</span>
         </li>
     </c:if>
-    <c:if test="${order.ljCommission!=0}">
+    <c:if test="${order.rebateWay==1}">
         <li class="info">
-            <span class="left">乐付佣金</span>
-            <span class="right">￥${order.ljCommission/100}</span>
+            <span class="left">乐加折扣</span>
+            <span class="right">${commission}折</span>
         </li>
     </c:if>
     <li class="info">

@@ -29,11 +29,14 @@
     <p><fmt:formatDate value="${financial.balanceDate}" type="both" pattern="yyyy-MM-dd EEEE"/></p>
 </div>
 <ul class="payTime">
-    <li class="head"><span>时间</span><span>交易金额</span><span>支付方式</span><span>手续费</span></li>
+    <li class="head"><span>时间</span><span>金额</span><span>手续费</span><span>类型</span><span>支付方式</span>
+    </li>
     <c:forEach items="${orders}" var="order">
         <li class="center"><span><fmt:formatDate value="${order.completeDate}" type="both"
-                                                 pattern="HH:mm"/></span><span>￥${order.totalPrice/100}</span><span><font
-                class="wxzf"></font></span><span>￥${order.ljCommission/100}</span></li>
+                                                 pattern="HH:mm"/></span><span>￥${order.totalPrice/100}</span><span>￥${order.ljCommission/100}</span><c:if
+                test="${order.rebateWay==1}"><span>导流订单</span></c:if><c:if
+                test="${order.rebateWay!=1}"><span>普通订单</span></c:if><span><font
+                class="wxzf"></font></span></li>
     </c:forEach>
     <li class="foot">
         <span class="left">总金额：￥${totalPrice/100}</span>

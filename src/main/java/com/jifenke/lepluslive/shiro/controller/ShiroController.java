@@ -107,8 +107,15 @@ public class ShiroController {
     if (currentUser.isAuthenticated()) {
 //        model.addAttribute("data", orderService.accountTurnover());
       String openId = CookieUtils.getCookieValue(request, appId + "-user-open-id");
-      merchantWeiXinUserService
-          .bindMerchantUser(openId, merchantService.findMerchantUserByName(user.getName()));
+      try {
+        merchantWeiXinUserService
+            .bindMerchantUser(openId, merchantService.findMerchantUserByName(user.getName()));
+      } catch (Exception e) {
+        lejiaResult.setStatus(500);
+        lejiaResult.setMsg("无权登录");
+        token.clear();
+        return lejiaResult;
+      }
       lejiaResult.setStatus(200);
       SavedRequest savedRequest = WebUtils.getSavedRequest(request);
       // 获取保存的URL

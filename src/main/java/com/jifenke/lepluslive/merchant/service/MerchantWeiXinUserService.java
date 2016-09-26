@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -26,6 +27,10 @@ public class MerchantWeiXinUserService {
 
   @Inject
   private MerchantWeiXinUserRepository merchantWeiXinUserRepository;
+
+  @Inject
+  private MerchantService merchantService;
+
 
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
   public void saveWeiXinUser(Map<String, Object> userDetail, Map<String, Object> map)
@@ -65,6 +70,16 @@ public class MerchantWeiXinUserService {
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
   public void bindMerchantUser(String openId, MerchantUser merchantUser) {
     MerchantWeiXinUser merchantWeiXinUser = findWeiXinUserByOpenId(openId);
+    if (merchantUser.getType() == 1) {
+      Optional<MerchantWeiXinUser>
+          optional =
+          merchantWeiXinUserRepository.findByMerchantUser(merchantUser);
+      if (optional.isPresent()) {
+        if (!optional.get().getId().equals(merchantWeiXinUser.getId())) {
+          throw new RuntimeException();
+        }
+      }
+    }
     merchantWeiXinUser.setMerchantUser(merchantUser);
     merchantWeiXinUserRepository.save(merchantWeiXinUser);
 

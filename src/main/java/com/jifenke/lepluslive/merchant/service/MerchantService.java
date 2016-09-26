@@ -64,4 +64,6 @@ public class MerchantService {
   public MerchantUser findMerchantUserByName(String name) {
     return merchantUserRepository.findByName(name);
   }
+
+
 }

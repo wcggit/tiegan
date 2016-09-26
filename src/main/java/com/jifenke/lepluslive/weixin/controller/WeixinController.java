@@ -38,6 +38,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.List;
 
@@ -132,7 +133,7 @@ public class WeixinController {
     try {
       CookieUtils.setCookie(request, response, appId + "-user-open-id", openid,
                             Constants.COOKIE_DISABLE_TIME);
-     // request.getRequestDispatcher(action).forward(request, response);
+      // request.getRequestDispatcher(action).forward(request, response);
       response.sendRedirect(action);
     } catch (Exception e) {
       e.printStackTrace();
@@ -155,6 +156,21 @@ public class WeixinController {
     String bankNumber = merchant.getMerchantBank().getBankNumber();
     model.addAttribute("merchant", merchant);
     model.addAttribute("bank", bankNumber.substring(bankNumber.length() - 4, bankNumber.length()));
+    if (merchant.getPartnership() == 1) {
+      Double commission = 1 - merchant.getLjCommission().doubleValue() / 100.0;
+      String s = (long) (commission * 1000) + "";
+      char[] chars = s.toCharArray();
+      if (chars[2] == '0') {
+        s = s.substring(0, 2);
+        if (chars[1] == '0') {
+          System.out.println(s);
+          s = s.substring(0, 1);
+        }
+      }else{
+        s = new BigDecimal(s).divide(new BigDecimal(10)).toString();
+      }
+      model.addAttribute("commission", s);
+    }
     return MvUtil.go("/weixin/merchantInfo");
   }
 
@@ -229,7 +245,24 @@ public class WeixinController {
   public ModelAndView goOrderInfo(
       @PathVariable String sid,
       Model model) {
-    model.addAttribute("order", offLineOrderService.findOffLineOrderByOrderSid(sid));
+    OffLineOrder offLineOrder = offLineOrderService.findOffLineOrderByOrderSid(sid);
+    model.addAttribute("order", offLineOrder);
+    Merchant merchant = offLineOrder.getMerchant();
+    if (merchant.getPartnership() == 1) {
+      Double commission = 1 - merchant.getLjCommission().doubleValue() / 100.0;
+      String s = (long) (commission * 1000) + "";
+      char[] chars = s.toCharArray();
+      if (chars[2] == '0') {
+        s = s.substring(0, 2);
+        if (chars[1] == '0') {
+          System.out.println(s);
+          s = s.substring(0, 1);
+        }
+      }else{
+        s = new BigDecimal(s).divide(new BigDecimal(10)).toString();
+      }
+      model.addAttribute("commission", s);
+    }
     return MvUtil.go("/weixin/orderInfo");
   }
 
@@ -300,7 +333,7 @@ public class WeixinController {
         offLineOrderService
             .findOffLineOrderByMerchantAndDate(merchant, balanceDate);
     for (OffLineOrder offLineOrder : offLineOrders) {
-        ljCommission += offLineOrder.getLjCommission();
+      ljCommission += offLineOrder.getLjCommission();
       totalPrice += offLineOrder.getTotalPrice();
     }
     String bankNumber = merchant.getMerchantBank().getBankNumber();

@@ -87,8 +87,15 @@
                                                               + '</span> <span class="right">￥'
                                                               + orders[i].totalPrice / 100
                                                               + '</span> <p>乐付确认码：'
-                                                              + orders[i].lepayCode + '</p></li>'
-
+                                                              + orders[i].lepayCode
+                                                              if (orders[i].rebateWay == 1) {
+                                                                  result +=
+                                                                  '<span class="order-single">导流订单</span>';
+                                                              } else {
+                                                                  result +=
+                                                                  '<span class="order-single">普通订单</span>';
+                                                              }
+                                                              result += '</p></li>';
                                                               if (i + 1 == orders.length
                                                                   && orders.length < 20) {
                                                                   // 锁定
@@ -110,7 +117,7 @@
                                                                                         + id;
                                                                                     });
                                                           });
-                                                      }else{
+                                                      } else {
                                                           me.lock();
                                                           // 无数据
                                                           me.noData();
