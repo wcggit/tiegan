@@ -7,6 +7,7 @@ import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantWeiXinUser;
 import com.jifenke.lepluslive.merchant.service.MerchantWeiXinUserService;
 import com.jifenke.lepluslive.weixin.domain.entities.Dictionary;
+import com.jifenke.lepluslive.weixin.domain.entities.InitialOrderRebateActivity;
 import com.jifenke.lepluslive.weixin.domain.entities.WeiXinUser;
 import com.jifenke.lepluslive.weixin.service.DictionaryService;
 import com.jifenke.lepluslive.weixin.service.WeiXinAwardService;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -49,33 +52,48 @@ public class WeiXinAwardController {
    */
   @RequestMapping("/wx/merchant_award")
   public ModelAndView merchantAwardPage(HttpServletRequest request) {
-    String openId = CookieUtils.getCookieValue(request, appId + "-user-open-id");
+    String openId = CookieUtils.getCookieValue(request,appId+"-user-open-id");
     WeiXinUser weiXinUser = weiXinUserService.findWeiXinUserByOpenId(openId);
-    MerchantWeiXinUser
-        merchantWeiXinUser = merchantWeiXinUserService.findWeiXinUserByOpenId(openId);
+    MerchantWeiXinUser merchantWeiXinUser = merchantWeiXinUserService.findWeiXinUserByOpenId(openId);
     Merchant merchant = merchantWeiXinUser.getMerchantUser().getMerchant();
-    Long
-        noRebate =
-        weiXinAwardService.findRebateCountByMerchantAndState(merchant, 0);        // 未发放奖金
-    Long
-        totalRebate =
-        weiXinAwardService.findRebateCountByMerchantAndState(merchant, 1);     // 累计奖金
-    Long awardNum = weiXinAwardService.findAwardNumByMerchant(merchant);
-    Dictionary dictionary = dictionaryService.findByName("最低发放金额");
-    Long minMoney = null;
-    if (dictionary != null) {
-      minMoney =
-          new Long(dictionary.getValue());                                             // 发放金额
+    ModelAndView modelAndView = null;
+    // 情况一:     当前用户非商户
+    if(merchant==null) {
+      modelAndView = new ModelAndView();
+      modelAndView.setViewName("/weixin/merchantAwardError");
+      modelAndView.addObject("displayType",3);
+      return modelAndView;
     }
-    ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("/weixin/merchantAward");
-    modelAndView.addObject("nickName", weiXinUser.getNickname());
-    modelAndView.addObject("headImage", weiXinUser.getHeadImageUrl());
-    modelAndView.addObject("merchantName", merchant.getName());
-    modelAndView.addObject("noRebate", noRebate);
-    modelAndView.addObject("totalRebate", totalRebate);
-    modelAndView.addObject("awardNum", awardNum);
-    modelAndView.addObject("minMoney", minMoney);
+    List<InitialOrderRebateActivity>
+        activities = weiXinAwardService.findActivityByMerchant(merchant);
+    // 情况二:    用户为商户,但用户未参加活动
+    if(activities==null || activities.size()==0) {
+      modelAndView = new ModelAndView();
+      modelAndView.setViewName("/weixin/merchantAwardError");
+      modelAndView.addObject("displayType",2);
+      return modelAndView;
+    }
+    // 情况三:    用户为商户,且已参加活动
+    if(activities!=null && activities.size()>0 && merchant!=null) {
+      Long noRebate = weiXinAwardService.findRebateCountByMerchantAndState(merchant,0);        // 未发放奖金
+      Long totalRebate = weiXinAwardService.findRebateCountByMerchantAndState(merchant,1);     // 累计奖金
+      Long awardNum = weiXinAwardService.findAwardNumByMerchant(merchant);
+      Dictionary dictionary = dictionaryService.findByName("最低发放金额");
+      Long minMoney = null;
+      if(dictionary!=null) {
+        minMoney = new Long(dictionary.getValue());                                             // 发放金额
+      }
+      modelAndView = new ModelAndView();
+      modelAndView.setViewName("/weixin/merchantAward");
+      modelAndView.addObject("nickName", weiXinUser.getNickname());
+      modelAndView.addObject("headImage", weiXinUser.getHeadImageUrl());
+      modelAndView.addObject("merchantName",merchant.getName());
+      modelAndView.addObject("noRebate",noRebate);
+      modelAndView.addObject("totalRebate",totalRebate);
+      modelAndView.addObject("awardNum",awardNum);
+      modelAndView.addObject("minMoney",minMoney);
+      modelAndView.addObject("displayType",1);
+    }
     return modelAndView;
   }
 

@@ -1,6 +1,7 @@
 package com.jifenke.lepluslive.weixin.service;
 
 import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
+import com.jifenke.lepluslive.weixin.domain.entities.InitialOrderRebateActivity;
 import com.jifenke.lepluslive.weixin.repository.WeiXinAwardLogRepository;
 import com.jifenke.lepluslive.weixin.repository.WeiXinAwardRepository;
 
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -45,5 +48,9 @@ public class WeiXinAwardService {
                                                                                     "createdDate")));
   }
 
+  @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+  public List<InitialOrderRebateActivity> findActivityByMerchant(Merchant merchant) {
+    return weiXinAwardRepository.findByMerchant(merchant);
+  }
 
 }
