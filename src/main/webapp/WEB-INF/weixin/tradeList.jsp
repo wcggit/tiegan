@@ -91,7 +91,10 @@
                                                               if (orders[i].rebateWay == 1) {
                                                                   result +=
                                                                   '<span class="order-single">导流订单</span>';
-                                                              } else {
+                                                              } else if(order[i].rebateWay==3){
+                                                                  result +=
+                                                                  '<span class="order-single">会员订单</span>';
+                                                              }else{
                                                                   result +=
                                                                   '<span class="order-single">普通订单</span>';
                                                               }

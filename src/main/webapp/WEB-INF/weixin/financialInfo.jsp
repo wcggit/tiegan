@@ -35,7 +35,8 @@
         <li class="center"><span><fmt:formatDate value="${order.completeDate}" type="both"
                                                  pattern="HH:mm"/></span><span>￥${order.totalPrice/100}</span><span>￥${order.ljCommission/100}</span><c:if
                 test="${order.rebateWay==1}"><span>导流订单</span></c:if><c:if
-                test="${order.rebateWay!=1}"><span>普通订单</span></c:if><span><font
+                test="${order.rebateWay==3}"><span>会员订单</span></c:if><c:if
+                test="${order.rebateWay!=3&&order.rebateWay!=1}"><span>普通订单</span></c:if><span><font
                 class="wxzf"></font></span></li>
     </c:forEach>
     <li class="foot">
