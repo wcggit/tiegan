@@ -24,7 +24,7 @@
 <div class="top">
     <p>当日流水金额</p>
 
-    <p>￥${financial.transferPrice/100}</p>
+    <p>￥${totalPrice/100-ljCommission/100}</p>
 
     <p><fmt:formatDate value="${financial.balanceDate}" type="both" pattern="yyyy-MM-dd EEEE"/></p>
 </div>
