@@ -16,7 +16,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <!--强制以webkit内核来渲染-->
-    <meta name="format-detection" content="telephone=no"><!--不显示拨号链接-->
+    <meta name="format-detection" content="telephone=no">
+    <!--不显示拨号链接-->
     <meta name="viewport"
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <title></title>
@@ -34,7 +35,7 @@
             <span class="right">￥${order.ljCommission/100}</span>
         </li>
     </c:if>
-    <c:if test="${order.rebateWay==1}">
+    <c:if test="${order.rebateWay==1||order.rebateWay==3}">
         <li class="info">
             <span class="left">乐加折扣</span>
             <span class="right">${commission}折</span>

@@ -61,7 +61,7 @@
     <li class="info">
         <span class="left">到帐时间</span>
         <c:if test="${financial.state==0}">
-            <span class="right">预计两个工作日内到达</span>
+            <span class="right">T+1</span>
         </c:if>
         <c:if test="${financial.state==1}">
             <span class="right"><fmt:formatDate value="${financial.transferDate}" type="both"
