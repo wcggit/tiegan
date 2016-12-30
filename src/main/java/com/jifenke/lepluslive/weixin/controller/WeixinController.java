@@ -166,7 +166,7 @@ public class WeixinController {
           System.out.println(s);
           s = s.substring(0, 1);
         }
-      }else{
+      } else {
         s = new BigDecimal(s).divide(new BigDecimal(10)).toString();
       }
       model.addAttribute("commission", s);
@@ -248,17 +248,22 @@ public class WeixinController {
     OffLineOrder offLineOrder = offLineOrderService.findOffLineOrderByOrderSid(sid);
     model.addAttribute("order", offLineOrder);
     Merchant merchant = offLineOrder.getMerchant();
+    Double commission = null;
     if (merchant.getPartnership() == 1) {
-      Double commission = 1 - merchant.getLjCommission().doubleValue() / 100.0;
+      if (offLineOrder.getRebateWay() == 1) {
+        commission = 1 - merchant.getLjCommission().doubleValue() / 100.0;
+      } else if (offLineOrder.getRebateWay() == 3) {
+        commission = 1 - merchant.getMemberCommission().doubleValue() / 100.0;
+      }
+
       String s = (long) (commission * 1000) + "";
       char[] chars = s.toCharArray();
       if (chars[2] == '0') {
         s = s.substring(0, 2);
         if (chars[1] == '0') {
-          System.out.println(s);
           s = s.substring(0, 1);
         }
-      }else{
+      } else {
         s = new BigDecimal(s).divide(new BigDecimal(10)).toString();
       }
       model.addAttribute("commission", s);

@@ -24,7 +24,7 @@
 <div class="top">
     <p>当日流水金额</p>
 
-    <p>￥${financial.transferPrice/100}</p>
+    <p>￥${totalPrice/100-ljCommission/100}</p>
 
     <p><fmt:formatDate value="${financial.balanceDate}" type="both" pattern="yyyy-MM-dd EEEE"/></p>
 </div>
@@ -35,7 +35,8 @@
         <li class="center"><span><fmt:formatDate value="${order.completeDate}" type="both"
                                                  pattern="HH:mm"/></span><span>￥${order.totalPrice/100}</span><span>￥${order.ljCommission/100}</span><c:if
                 test="${order.rebateWay==1}"><span>导流订单</span></c:if><c:if
-                test="${order.rebateWay!=1}"><span>普通订单</span></c:if><span><font
+                test="${order.rebateWay==3}"><span>会员订单</span></c:if><c:if
+                test="${order.rebateWay!=3&&order.rebateWay!=1}"><span>普通订单</span></c:if><span><font
                 class="wxzf"></font></span></li>
     </c:forEach>
     <li class="foot">
@@ -60,7 +61,7 @@
     <li class="info">
         <span class="left">到帐时间</span>
         <c:if test="${financial.state==0}">
-            <span class="right">预计两个工作日内到达</span>
+            <span class="right">T+1</span>
         </c:if>
         <c:if test="${financial.state==1}">
             <span class="right"><fmt:formatDate value="${financial.transferDate}" type="both"
