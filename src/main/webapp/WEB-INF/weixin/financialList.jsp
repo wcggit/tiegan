@@ -82,7 +82,7 @@
                                                               + '"><span class="left">'
                                                               + new Date(financials[i].balanceDate).format("MM月dd日")
                                                               + '</span> <span class="right">￥'
-                                                              + financials[i].transferPrice / 100
+                                                              + (financials[i].transferPrice+financials[i].appTransfer+financials[i].posTransfer) / 100
                                                               + '</span>';
                                                               if (financials[i].state == 0) {
                                                                   result +=

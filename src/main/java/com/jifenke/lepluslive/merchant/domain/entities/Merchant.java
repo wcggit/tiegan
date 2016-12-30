@@ -79,6 +79,8 @@ public class Merchant {
 
   private BigDecimal ljBrokerage = new BigDecimal(0); //只有联盟商户才不为空 , 代表非乐加会员消费时,收取的手续费
 
+  private BigDecimal memberCommission = new BigDecimal(0); //只有联盟商户才不为空 , 代表会员在绑定商户消费时的手续费
+
   private BigDecimal scoreARebate; //返a积分比 单位百分比
 
   private BigDecimal scoreBRebate;
@@ -86,6 +88,14 @@ public class Merchant {
   private String contact; //联系人
 
   private Date createDate = new Date();
+
+  public BigDecimal getMemberCommission() {
+    return memberCommission;
+  }
+
+  public void setMemberCommission(BigDecimal memberCommission) {
+    this.memberCommission = memberCommission;
+  }
 
   public BigDecimal getLjBrokerage() {
     return ljBrokerage;

@@ -23,7 +23,7 @@ public interface FinancialStatisticRepository extends JpaRepository<FinancialSta
 
   Page findAllByMerchant(Merchant merchant, Pageable completeDate);
 
-  @Query(value = "select sum(transfer_price) from financial_statistic where `merchant_id` = ?1 and balance_date between ?2  and ?3", nativeQuery = true)
+  @Query(value = "select  ifnull(sum(transfer_price+app_transfer+pos_transfer),0)  from financial_statistic where `merchant_id` = ?1 and balance_date between ?2  and ?3", nativeQuery = true)
   Long countTransferPriceByMonth(Long id, Date start, Date end);
 
   FinancialStatistic findByStatisticId(String id);
