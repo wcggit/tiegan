@@ -3,7 +3,6 @@ package com.jifenke.lepluslive.lejiauser.service;
 
 import com.jifenke.lepluslive.lejiauser.domain.entities.LeJiaUser;
 import com.jifenke.lepluslive.lejiauser.repository.LeJiaUserRepository;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,6 +28,14 @@ public class LeJiaUserService {
     public LeJiaUser findUserByUserSid(String userSid) {
         return leJiaUserRepository.findByUserSid(userSid);
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public Long findNumberUserByBindMerchant(Long merchantId) {
+        return leJiaUserRepository.findNumberUserByBindMerchant(merchantId);
+    }
+
+
+
 
 
 }

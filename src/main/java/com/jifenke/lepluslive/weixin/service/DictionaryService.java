@@ -2,14 +2,12 @@ package com.jifenke.lepluslive.weixin.service;
 
 import com.jifenke.lepluslive.weixin.domain.entities.Dictionary;
 import com.jifenke.lepluslive.weixin.repository.DictionaryRepository;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by xf on 2016/9/27.

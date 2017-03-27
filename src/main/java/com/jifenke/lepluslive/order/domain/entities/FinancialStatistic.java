@@ -3,14 +3,8 @@ package com.jifenke.lepluslive.order.domain.entities;
 import com.jifenke.lepluslive.global.util.MvUtil;
 import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * Created by wcg on 16/5/5.
@@ -46,6 +40,8 @@ public class FinancialStatistic {
 
   private Long posTransFromTruePay;//pos银行转账
 
+  @Version
+  private Long version = 0L;
 
   public Long getAppTransfer() {
     return appTransfer;
@@ -141,5 +137,13 @@ public class FinancialStatistic {
 
   public void setBalanceDate(Date balanceDate) {
     this.balanceDate = balanceDate;
+  }
+
+  public Long getVersion() {
+    return version;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
   }
 }

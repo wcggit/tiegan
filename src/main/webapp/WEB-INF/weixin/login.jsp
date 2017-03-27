@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: wcg
+  User: lss
   Date: 16/5/18
   Time: 上午11:10
   To change this template use File | Settings | File Templates.
@@ -13,64 +13,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="format-detection" content="telephone=no"><!--不显示拨号链接-->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <!--强制以webkit内核来渲染-->
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><!--强制以webkit内核来渲染-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <title></title>
-    <link rel="stylesheet" href="${resourceUrl}/css/login.css"/>
-    <script src="${resourceUrl}/js/jquery-2.0.3.min.js"></script>
+    <link rel="stylesheet" href="${lepayNew}/framework/common.css"/>
+    <link rel="stylesheet" href="${lepayNew}/css/login.css"/>
+    <script src="${lepayNew}/framework/zepto.min.js"></script>
 </head>
 <body>
-<ul class="paySuccess">
-    <li class="info">
-        <span class="name"></span><input id="name" type="text" placeholder="请输入用户名"/>
-    </li>
-    <li class="info">
-        <span class="passWord"></span><input id="password" type="password" placeholder="请输入密码"/>
-    </li>
-</ul>
-<div class="form-btn" id="pay-confrim">确认登录</div>
-<p class="prac">
-    <font>温馨提示：</font>使用该用户名和密码登录后，您的微信号将和该用户名对应的乐＋商户绑定，及时收到订单和转账信息。
-</p>
-
-<p class="tel"><span class="kefu"></span>客服电话：400-0412-800</p>
-</body>
+<div class="main">
+    <div class="logo"></div>
+    <div class="form">
+        <label class="input-use">
+            <input type="text" id="name" class="border" placeholder="请输入您的用户名">
+        </label>
+        <label class="input-password">
+            <input type="password" id="password" class="border" placeholder="请输入您的密码">
+        </label>
+        <p class="ttl"><span style="color: #F3981E;font-size: 3.2vw">* </span>登录账号和密码后，您的微信号将自动和该账号绑定</p>
+        <div id="pay-confrim" type="button" class="login login-disabled">登录</div>
+    </div>
+    <p class="tel">客服电话：<a href="tel:014-0148-800">014-0148-800</a></p>
+</div>
 <script>
     var flag = true;
+    $('.input-use input').on('touchstart',function () {
+        $('.input-use input').addClass('border-red');
+        $('.input-password input').removeClass('border-red');
+    })
+    $('.input-password input').on('touchstart',function () {
+        $('.input-password input').addClass('border-red');
+        $('.input-use input').removeClass('border-red');
+    })
+    $('.input-password input').on('input propertychange',function () {
+        isEmpty();
+    })
+    function isEmpty() {
+        if ($('.input-use input').val()!=''&&$('.input-password input').val()!=''){
+            $('.login').attr({'disabled':false}).css({'background-color':'#F3981E'});
+        }else {
+            $('.login').attr({'disabled':true}).css({'background-color':'#D9D9D9'});
+        }
+    }
     $("#pay-confrim").bind("touchstart", function () {
         if (flag) {
             flag = false;
             var user = {};
             user.name = $("#name").val();
             user.password = $("#password").val();
-//        $.post("/wx", JSON.stringify(user), function (data) {
-//            if (data.status == 200) {
-//                $("#cart-number").attr("style", "display:block")
-//                $("#cart-number").text(data.msg);
-//            } else {
-//                $("#cart-number").attr("style", "display:none")
-//            }
-//        });
             $.ajax({
-                       type: "post",
-                       url: "/wx",
-                       data: JSON.stringify(user),
-                       contentType: "application/json",
-                       success: function (data) {
+                type: "post",
+                url: "/wx",
+                data: JSON.stringify(user),
+                contentType: "application/json",
+                success: function (data) {
 //                       location.href = "/manage/topic";
-                           if (data.status == 200) {
-                               location.href = data.data;
-                           } else {
-                               alert(data.msg);
-                               flag = true;
-                           }
-                       }
-                   });
+                    if (data.status == 200) {
+                        // location.href = data.data;
+                        location.href ="/wx/merchantChoose";
+                    } else {
+                        alert(data.msg);
+                        flag = true;
+                    }
+                }
+            });
         }
     });
 
+
 </script>
+</body>
 </html>

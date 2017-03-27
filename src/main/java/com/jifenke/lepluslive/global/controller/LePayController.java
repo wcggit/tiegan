@@ -1,7 +1,6 @@
 package com.jifenke.lepluslive.global.controller;
 
 import com.jifenke.lepluslive.global.util.MvUtil;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;

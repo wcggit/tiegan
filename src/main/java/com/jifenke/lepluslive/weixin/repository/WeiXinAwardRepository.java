@@ -2,7 +2,6 @@ package com.jifenke.lepluslive.weixin.repository;
 
 import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
 import com.jifenke.lepluslive.weixin.domain.entities.InitialOrderRebateActivity;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

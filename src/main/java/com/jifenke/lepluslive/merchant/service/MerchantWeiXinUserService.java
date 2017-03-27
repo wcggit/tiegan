@@ -6,17 +6,15 @@ import com.jifenke.lepluslive.merchant.domain.entities.MerchantWeiXinUser;
 import com.jifenke.lepluslive.merchant.repository.MerchantWeiXinUserRepository;
 import com.jifenke.lepluslive.score.domain.entities.ScoreA;
 import com.jifenke.lepluslive.score.domain.entities.ScoreB;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.inject.Inject;
 
 /**
  * Created by wcg on 16/5/17.

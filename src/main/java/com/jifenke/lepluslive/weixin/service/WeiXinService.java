@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jifenke.lepluslive.global.config.Constants;
 import com.jifenke.lepluslive.global.util.CookieUtils;
 import com.jifenke.lepluslive.weixin.domain.entities.WeiXinUser;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,13 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by wcg on 16/3/18.
@@ -60,6 +58,7 @@ public class WeiXinService {
       Map<String, Object> map = mapper.readValue(new BufferedReader(new InputStreamReader(entity.getContent(),"utf-8")), Map.class);
       EntityUtils.consume(entity);
       response.close();
+      System.out.println(map.toString());
       return map;
     } catch (IOException e) {
       e.printStackTrace();

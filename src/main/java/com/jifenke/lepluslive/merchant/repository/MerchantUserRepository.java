@@ -1,7 +1,6 @@
 package com.jifenke.lepluslive.merchant.repository;
 
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

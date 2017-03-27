@@ -1,7 +1,6 @@
 package com.jifenke.lepluslive.merchant.repository;
 
 import com.jifenke.lepluslive.merchant.domain.entities.Area;
-
 import com.jifenke.lepluslive.merchant.domain.entities.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.QueryHints;

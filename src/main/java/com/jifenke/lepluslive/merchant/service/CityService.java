@@ -4,15 +4,13 @@ import com.jifenke.lepluslive.merchant.domain.entities.Area;
 import com.jifenke.lepluslive.merchant.domain.entities.City;
 import com.jifenke.lepluslive.merchant.repository.AreaRepository;
 import com.jifenke.lepluslive.merchant.repository.CityRepository;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by wcg on 16/3/17.
