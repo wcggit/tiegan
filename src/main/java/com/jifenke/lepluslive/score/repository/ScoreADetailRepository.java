@@ -2,7 +2,6 @@ package com.jifenke.lepluslive.score.repository;
 
 import com.jifenke.lepluslive.score.domain.entities.ScoreA;
 import com.jifenke.lepluslive.score.domain.entities.ScoreADetail;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

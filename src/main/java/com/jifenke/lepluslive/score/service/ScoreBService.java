@@ -4,17 +4,15 @@ import com.jifenke.lepluslive.lejiauser.domain.entities.LeJiaUser;
 import com.jifenke.lepluslive.order.domain.entities.OffLineOrder;
 import com.jifenke.lepluslive.score.domain.entities.ScoreB;
 import com.jifenke.lepluslive.score.domain.entities.ScoreBDetail;
-import com.jifenke.lepluslive.weixin.domain.entities.WeiXinUser;
 import com.jifenke.lepluslive.score.repository.ScoreBDetailRepository;
 import com.jifenke.lepluslive.score.repository.ScoreBRepository;
-
+import com.jifenke.lepluslive.weixin.domain.entities.WeiXinUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by wcg on 16/3/18.

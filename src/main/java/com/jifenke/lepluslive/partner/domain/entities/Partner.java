@@ -1,14 +1,6 @@
 package com.jifenke.lepluslive.partner.domain.entities;
 
-import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
-
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by wcg on 16/6/3. 合伙人表

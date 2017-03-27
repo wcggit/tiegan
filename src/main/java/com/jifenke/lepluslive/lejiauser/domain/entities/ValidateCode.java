@@ -3,14 +3,8 @@ package com.jifenke.lepluslive.lejiauser.domain.entities;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Entity;
-
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Created by zhangwen on 2016/4/25.

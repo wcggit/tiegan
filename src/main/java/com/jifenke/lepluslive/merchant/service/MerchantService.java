@@ -7,11 +7,9 @@ import com.jifenke.lepluslive.merchant.repository.MerchantRepository;
 import com.jifenke.lepluslive.merchant.repository.MerchantUserRepository;
 import com.jifenke.lepluslive.merchant.repository.MerchantWalletRepository;
 import com.jifenke.lepluslive.order.domain.entities.OffLineOrder;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import javax.inject.Inject;
 

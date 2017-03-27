@@ -10,6 +10,7 @@
 <html>
 <c:set var="resourceUrl" value="http://www.lepluslife.com/resource/tiegan"></c:set>
 <c:set var="wxRootUrl" value="http://www.lepluslife.com"></c:set>
+<c:set var="lepayNew" value="http://www.lepluslife.com/resource/lepayNew"></c:set>
 
 <head>
     <title></title>

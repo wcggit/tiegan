@@ -2,7 +2,6 @@ package com.jifenke.lepluslive.weixin.repository;
 
 import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
 import com.jifenke.lepluslive.weixin.domain.entities.InitialOrderRebateActivityLog;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

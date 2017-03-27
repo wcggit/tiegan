@@ -1,7 +1,6 @@
 package com.jifenke.lepluslive.weixin.repository;
 
 import com.jifenke.lepluslive.weixin.domain.entities.WeiXinUser;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

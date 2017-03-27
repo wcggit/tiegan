@@ -7,7 +7,6 @@ package com.jifenke.lepluslive.global.config;
 import org.springframework.data.auditing.DateTimeProvider;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class AuditingDateTimeProvider implements DateTimeProvider {
 

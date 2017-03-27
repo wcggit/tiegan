@@ -5,7 +5,6 @@ import com.jifenke.lepluslive.global.util.CookieUtils;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantWeiXinUser;
 import com.jifenke.lepluslive.merchant.service.MerchantWeiXinUserService;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -13,6 +12,7 @@ import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;

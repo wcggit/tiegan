@@ -12,7 +12,6 @@ import com.jifenke.lepluslive.weixin.domain.entities.WeiXinUser;
 import com.jifenke.lepluslive.weixin.service.DictionaryService;
 import com.jifenke.lepluslive.weixin.service.WeiXinAwardService;
 import com.jifenke.lepluslive.weixin.service.WeiXinUserService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,10 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by xf on 2016/9/26.
