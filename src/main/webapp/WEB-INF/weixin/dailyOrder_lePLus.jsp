@@ -47,11 +47,12 @@
         </ul>
     </div>
     <!--下半部分——列表-->
-    <ul  class="bottom"  id="financialList">
-
-    </ul>
+    <div class="bottom order-out-div">
+        <ul id="financialList" class="order-in-div"></ul>
+    </div>
 </div>
 <script>
+    $('.order-out-div').height(($('body').get(0).offsetHeight-$('.top').get(0).offsetHeight)+'px');
     var content = document.getElementById("financialList");
 
     var page = 1;
@@ -62,13 +63,13 @@
     $(function () {
         getFinancialListByAjax();
 //        上拉加载
-        var outHeight=$('.bottom').height();
+        var outHeight=$('.order-out-div').height();
         $('.bottom').on('touchend',function () {
             refresh()
         })
         function refresh() {
             var inHeight=$('.order-in-div').height();
-            var scrollHeight=$('.bottom').scrollTop();
+            var scrollHeight=$('.order-out-div').scrollTop();
             console.log(inHeight+"-"+outHeight+"-"+scrollHeight);
             var finalHeight=inHeight-outHeight-scrollHeight;
             if(finalHeight<=10){

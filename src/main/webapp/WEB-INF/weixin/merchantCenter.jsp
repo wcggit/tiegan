@@ -71,7 +71,9 @@
         $('.main .modal').addClass('animation-in');
     })
     $('.main .btn-cancel').on('touchstart',function () {
-        $('.main .shadow').css({'display':'none'});
+        setTimeout(function () {
+            $('.main .shadow').css({'display':'none'});
+        },300);
     })
 
     function merchantChange () {
@@ -81,10 +83,16 @@
         location.href= "/wx/qrcode";
     }
     function invitationCode() {
-        var qyCode=$("#qyCode").val();
-        if(qyCode==""){
+        var  qyCode=$("#qyCode").val();
+        if(qyCode === undefined){
             alert("当前商户没有邀请码,请联系客服开通");
-        }else {location.href= "/wx/invitationCode";}
+        }else {
+            if(qyCode==1){
+                location.href= "/wx/invitationCode";
+            }else {
+                alert("当前商户没有邀请码,请联系客服开通");
+            }
+        }
 
     }
     function merchantInfo() {
