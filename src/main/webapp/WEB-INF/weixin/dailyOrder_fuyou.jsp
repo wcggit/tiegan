@@ -46,23 +46,12 @@
         </ul>
     </div>
     <!--下半部分——列表-->
-    <ul class="bottom order-in-div" id="financialList">
-
-        <%--<!--日期-->--%>
-        <%--<li class="date-ttl">--%>
-            <%--<p>--%>
-                <%--<span class="left">2016年11月</span>--%>
-                <%--<span class="right">到账金额：¥10900.02</span>--%>
-            <%--</p>--%>
-        <%--</li>--%>
-        <%--<!--订单列表-->--%>
-        <%--<li class="order-list list-no">--%>
-            <%--<p><span class="left">11月29日</span><span class="right">¥580.00</span></p>--%>
-            <%--<p><span class="right">（微信支付¥580.00）</span></p>--%>
-        <%--</li>--%>
-    </ul>
+    <div class="bottom order-out-div">
+        <ul id="financialList" class="order-in-div"></ul>
+    </div>
 </div>
 <script>
+    $('.order-out-div').height(($('body').get(0).offsetHeight-$('.top').get(0).offsetHeight)+'px');
     var content = document.getElementById("financialList");
     var page = 1;
     var date = null;
@@ -71,13 +60,13 @@
     $(function () {
         getFinancialListByAjax();
 //        上拉加载
-        var outHeight=$('.bottom').height();
+        var outHeight=$('.order-out-div').height();
         $('.bottom').on('touchend',function () {
             refresh()
         })
         function refresh() {
             var inHeight=$('.order-in-div').height();
-            var scrollHeight=$('.bottom').scrollTop();
+            var scrollHeight=$('.order-out-div').scrollTop();
             console.log(inHeight+"-"+outHeight+"-"+scrollHeight);
             var finalHeight=inHeight-outHeight-scrollHeight;
             if(finalHeight<=10){

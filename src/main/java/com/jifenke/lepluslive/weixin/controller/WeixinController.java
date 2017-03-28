@@ -694,8 +694,10 @@ public class WeixinController {
         model.addAttribute("lePlusoffLineOrders", lePlusoffLineOrders);
         model.addAttribute("financial", financialStatistic);
         model.addAttribute("merchant", merchant);
-        model.addAttribute("bank1", bankNumber.substring(0, 4));
-        model.addAttribute("bank2", bankNumber.substring(bankNumber.length() - 4, bankNumber.length()));
+        if(bankNumber.length()>4){
+            model.addAttribute("bank1", bankNumber.substring(0, 4));
+            model.addAttribute("bank2", bankNumber.substring(bankNumber.length() - 4, bankNumber.length()));
+        }
         model.addAttribute("weiXinOrderWeiXinTransferMoney", weiXinOrderWeiXinTransferMoney);
         model.addAttribute("lePlusOrderWeiXinTransferMoney", lePlusOrderWeiXinTransferMoney);
         model.addAttribute("lePlusOrderScoreaTransferMoney", lePlusOrderScoreaTransferMoney);

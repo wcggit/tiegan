@@ -84,16 +84,20 @@
                 </ul>
             </div>
         </div>
-        <div class="select-result">
-            <ul  id="someMessage">
-
-            </ul>
+        <div class="select-result" id="someMessage">
+            <p>筛选后</p>
+            <p>共35笔订单／¥385流水／手续费（折扣）¥35／应入账<span class="">¥350</span></p>
         </div>
-        <div class="order-out-div" id="paySuccess">
+        <div class="order-out-div">
+            <div class="order-in-div"  id="paySuccess"></div>
         </div>
     </div>
 </div>
 <script>
+    function currentOutHeight() {
+        $('.order-out-div').height(($('body').get(0).offsetHeight-$('.top').get(0).offsetHeight-$('.select-tab').get(0).offsetHeight-$('.select-result').get(0).offsetHeight)+'px');
+    }
+    currentOutHeight();
     var content = document.getElementById("paySuccess");
     var content2 = document.getElementById("someMessage");
     var olOrderCriteria = {};
@@ -136,6 +140,7 @@
             contentType: "application/json",
             success: function (data) {
                 content2.innerHTML="<p>筛选后</p><p>共"+data.data.integerList[0]+"笔订单／流水¥"+data.data.integerList[1]/100+"／手续费(折扣)¥"+data.data.integerList[3]/100+"／应入账<span>¥"+data.data.integerList[2]/100+"</span></p>";
+                currentOutHeight();
                 var result = '';
                 var orders = data.data.content;
                 var date = null;
@@ -260,51 +265,46 @@
     $('.content-timeRange li:not(:last-child)').each(function (j) {
         $('.content-timeRange li').eq(j).on('touchstart',function () {
             $('.select-tab .select-item:first-child div').empty().text($(this).text());
-            selectInit();
-            var arr1 = new Array();
-            var timeString=dateRange(j);
-            arr1 =timeString.split("-");
-            var startDate1=arr1[0];
-            var endDate1=arr1[1];
+            setTimeout(function () {
+                selectInit();
+                var arr1 = new Array();
+                var timeString=dateRange(j);
+                arr1 =timeString.split("-");
+                var startDate1=arr1[0];
+                var endDate1=arr1[1];
 
-            olOrderCriteria.startDate=startDate1;
-            olOrderCriteria.endDate=endDate1;
+                olOrderCriteria.startDate=startDate1;
+                olOrderCriteria.endDate=endDate1;
 
-            olOrderCriteria.offset=1;
+                olOrderCriteria.offset=1;
 
-            content.innerHTML="";
-
-
-            getOffLineOrderByAjax(olOrderCriteria);
+                content.innerHTML="";
 
 
-
+                getOffLineOrderByAjax(olOrderCriteria);
+            },300);
         })
     })
     //        自定义时间
     $('.content-timeRange li:last-child').on('touchstart',function () {
         $('.select-tab .select-item:first-child div').empty().text($(this).text());
-
-//            selectInit();
-
-    })
+    });
     //        选择订单类型
     $('.content-type li').each(function (k) {
         $('.content-type li').eq(k).on('touchstart',function () {
             $('.select-tab .select-item:last-child div').empty().text($(this).text());
             setTimeout(function () {
                 selectInit();
-            },100)
-
-            if(k==1||k==2){
-                olOrderCriteria.rebateWay=k;
-            }
-            if(k==0){
-                olOrderCriteria.rebateWay=null;
-            }
-            olOrderCriteria.offset=1;
-            content.innerHTML="";
-            getOffLineOrderByAjax(olOrderCriteria);
+                if(k==1||k==2){
+                    olOrderCriteria.rebateWay=k;
+                }
+                if(k==0){
+                    olOrderCriteria.rebateWay=null;
+                }
+                olOrderCriteria.offset=1;
+                content.innerHTML="";
+                getOffLineOrderByAjax(olOrderCriteria);
+            },300);
         })
     })
     //        样式初始化
