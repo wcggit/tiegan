@@ -542,11 +542,11 @@ public class WeixinController {
         } else {
             List<Object[]> list = finanicalStatisticService.findTotalAndNumberFromDailyOrderlePLus(merchant.getId());
             Long total = 0l;
-            Long number = 0l;
+            Long number = 1l;
             if (list.get(0)[0] != null) {
                 total = Long.valueOf(list.get(0)[0].toString());
             }
-            if (list.get(0)[1] != null) {
+            if (list.get(0)[1] != null&&list.get(0)[1].toString()!="0") {
                 number = Long.valueOf(list.get(0)[1].toString());
             }
             Double average = (Math.round(total / number) * 100.0) / 100.0;
