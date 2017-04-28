@@ -6,6 +6,7 @@ import com.jifenke.lepluslive.global.util.LejiaResult;
 import com.jifenke.lepluslive.global.util.MD5Util;
 import com.jifenke.lepluslive.global.util.MvUtil;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
+import com.jifenke.lepluslive.merchant.domain.entities.MerchantWeiXinUser;
 import com.jifenke.lepluslive.merchant.service.MerchantService;
 import com.jifenke.lepluslive.merchant.service.MerchantWeiXinUserService;
 import org.apache.shiro.SecurityUtils;
@@ -13,6 +14,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +48,11 @@ public class ShiroController {
   @RequestMapping(value = "/wx", method = RequestMethod.GET)
   public ModelAndView wxLoginForm(HttpServletResponse response, HttpServletRequest request) {
     String openId = CookieUtils.getCookieValue(request, appId + "-user-open-id");
-    if (openId == null) {
+    MerchantWeiXinUser merchantWeiXinUser =null;
+    if(openId != null){
+      merchantWeiXinUser = merchantWeiXinUserService.findWeiXinUserByOpenId(openId);
+    }
+    if (merchantWeiXinUser == null) {
       SavedRequest savedRequest = WebUtils.getSavedRequest(request);
       String callbackUrl = null;
       // 获取保存的URL
