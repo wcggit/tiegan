@@ -40,8 +40,8 @@
             </div>
         </li>
         <li class="list">
-            <div class="left">手续费</div>
-            <div class="right">¥${order.ljCommission/100}</div>
+            <div class="left">乐加折扣</div>
+            <div class="right">${discount/100}/折</div>
         </li>
         <li class="list">
             <div class="left">实际到账</div>
