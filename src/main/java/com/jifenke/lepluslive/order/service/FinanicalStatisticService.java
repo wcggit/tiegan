@@ -5,7 +5,6 @@ import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
 import com.jifenke.lepluslive.merchant.service.MerchantService;
 import com.jifenke.lepluslive.order.domain.entities.FinancialStatistic;
 import com.jifenke.lepluslive.order.repository.FinancialStatisticRepository;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -13,10 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by wcg on 16/5/21.
@@ -44,6 +44,7 @@ public class FinanicalStatisticService {
   }
 
   public Page findFinanicalByMerchantAndPage(Merchant merchant, Integer offset) {
+
     return financialStatisticRepository.findAllByMerchant(merchant, new PageRequest(offset - 1, 20,
                                                                                     new Sort(
                                                                                         Sort.Direction.DESC,
@@ -56,14 +57,23 @@ public class FinanicalStatisticService {
     cal.setTime(date);
     int year = cal.get(Calendar.YEAR);
     int month = cal.get(Calendar.MONTH);
-    Date end = MvUtil.getMonthEndDate(year, month, cal);
     Date start = MvUtil.getMonthStartDate(year, month, cal);
-
-    return financialStatisticRepository.countTransferPriceByMonth(merchant.getId(), start, end);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+    String dateStr=sdf.format(start)+"%";
+    return financialStatisticRepository.countTransferPriceByMonth(merchant.getId(), dateStr);
   }
 
   public FinancialStatistic findFinancialByStatisticId(String id) {
     return financialStatisticRepository.findByStatisticId(id);
 
   }
+
+  public List<Object[]> findTotalAndNumberFromDailyOrderlePLus(Long id) {
+    return financialStatisticRepository.findTotalAndNumberFromDailyOrderlePLus(id);
+
+  }
+
+
+
+
 }

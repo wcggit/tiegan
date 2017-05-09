@@ -1,17 +1,10 @@
 package com.jifenke.lepluslive.lejiauser.domain.entities;
 
 import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by wcg on 16/4/22.

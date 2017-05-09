@@ -1,19 +1,11 @@
 package com.jifenke.lepluslive.score.domain.entities;
 
 import com.jifenke.lepluslive.lejiauser.domain.entities.LeJiaUser;
-
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 /**
  * Created by wcg on 16/3/18.

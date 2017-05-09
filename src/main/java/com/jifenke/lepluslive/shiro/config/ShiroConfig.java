@@ -1,8 +1,6 @@
 package com.jifenke.lepluslive.shiro.config;
 
 import com.jifenke.lepluslive.global.filter.WeiXinFilter;
-import com.jifenke.lepluslive.merchant.service.MerchantWeiXinUserService;
-
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -18,11 +16,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.inject.Inject;
-import javax.servlet.Filter;
 
 /**
 * Created by wcg on 16/3/31.
@@ -121,14 +117,16 @@ public class ShiroConfig implements ApplicationContextAware {
     weiXinFilter.setLoginUrl("/wx");
     loginFilter.put("wxFilter", weiXinFilter);
 
+
+
     Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
     // anon：它对应的过滤器里面是空的,什么都没做
     filterChainDefinitionMap.put("/wx/userRegister", "anon");//anon 可以理解为不拦截
-    //filterChainDefinitionMap.put("/**", "authc");//anon 可以理解为不拦截
+    //filterChainDefinitionMap.put("/**", "authc");
     filterChainDefinitionMap.put("/wx", "anon");//anon 可以理解为不拦截
-    filterChainDefinitionMap.put("/wx/**", "wxFilter");//anon 可以理解为不拦截
+    filterChainDefinitionMap.put("/wx/**", "wxFilter");
     //filterChainDefinitionMap.put("/wx/**", "wxLoginFilter");//anon 可以理解为不拦截
-    filterChainDefinitionMap.put("/web/**", "webLoginFilter");//anon 可以理解为不拦截
+    filterChainDefinitionMap.put("/web/**", "webLoginFilter");
 
     shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     return shiroFilterFactoryBean;

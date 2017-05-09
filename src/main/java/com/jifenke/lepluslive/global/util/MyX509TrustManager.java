@@ -1,9 +1,8 @@
 package com.jifenke.lepluslive.global.util;
 
+import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-
-import javax.net.ssl.X509TrustManager;
 
 /**
  * Created by wcg on 16/3/21.

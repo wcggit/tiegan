@@ -3,24 +3,10 @@ package com.jifenke.lepluslive.merchant.domain.entities;
 import com.jifenke.lepluslive.global.util.MvUtil;
 import com.jifenke.lepluslive.partner.domain.entities.Partner;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 /**
  * Created by wcg on 16/3/17.
@@ -59,11 +45,11 @@ public class Merchant {
 
   private String phoneNumber; //服务电话
 
-  private Integer partnership; //合作关系
+  private Integer partnership; //合作关系 0普通商户  1 联盟商户 2 虚拟商户 未天使合伙人创建默认自带商户
 
-  private Double lng=0.0;
+  private Double lng = 0.0;
 
-  private Double lat=0.0;
+  private Double lat = 0.0;
 
   private String payee; //收款人
 
@@ -73,6 +59,8 @@ public class Merchant {
 
   private String qrCodePicture; //商户收款码
 
+  private String pureQrCode; //纯支付码
+
   private Long userLimit; //会员绑定上线
 
   private BigDecimal ljCommission; //乐加佣金 单位百分比
@@ -81,13 +69,24 @@ public class Merchant {
 
   private BigDecimal memberCommission = new BigDecimal(0); //只有联盟商户才不为空 , 代表会员在绑定商户消费时的手续费
 
-  private BigDecimal scoreARebate; //返a积分比 单位百分比
+  private BigDecimal scoreARebate; //返a积分比 单位百分比  【导流订单红包】
 
-  private BigDecimal scoreBRebate;
+  private BigDecimal scoreBRebate; //普通订单返B积分策略   【普通订单积分】
 
   private String contact; //联系人
 
   private Date createDate = new Date();
+
+  public String getPureQrCode() {
+    return pureQrCode;
+  }
+
+  public void setPureQrCode(String pureQrCode) {
+    this.pureQrCode = pureQrCode;
+  }
+
+  @OneToOne(cascade = CascadeType.ALL)
+  private MerchantInfo merchantInfo;   //商家详情介绍
 
   public BigDecimal getMemberCommission() {
     return memberCommission;
@@ -105,7 +104,7 @@ public class Merchant {
     this.ljBrokerage = ljBrokerage;
   }
 
-  @OneToMany(mappedBy = "merchant",fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "merchant", fetch = FetchType.LAZY)
   private List<MerchantProtocol> merchantProtocols;
 
   private Integer cycle;  //结算周期  1 一个工作日 2 2个工作日
@@ -202,14 +201,6 @@ public class Merchant {
     this.partner = partner;
   }
 
-
-  public Long getLimit() {
-    return userLimit;
-  }
-
-  public void setLimit(Long userLimit) {
-    this.userLimit = userLimit;
-  }
 
   @ManyToOne
   private Area area;
@@ -369,4 +360,45 @@ public class Merchant {
     this.picture = picture;
   }
 
+  public MerchantInfo getMerchantInfo() {
+    return merchantInfo;
+  }
+
+  public void setMerchantInfo(MerchantInfo merchantInfo) {
+    this.merchantInfo = merchantInfo;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Merchant)) {
+      return false;
+    }
+
+    Merchant merchant = (Merchant) o;
+
+    if (!id.equals(merchant.id)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+
+  @ManyToOne
+  private MerchantUser merchantUser;                      //  门店所属合伙人
+
+  public MerchantUser getMerchantUser() {
+    return merchantUser;
+  }
+
+  public void setMerchantUser(MerchantUser merchantUser) {
+    this.merchantUser = merchantUser;
+  }
 }
