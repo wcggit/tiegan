@@ -16,7 +16,9 @@ public final class Constants {
 
     public static final String SYSTEM_ACCOUNT = "system";
 
-    public static final String WEI_XIN_TOKEN = "sdjbtq1457162257";
+//    public static final String WEI_XIN_TOKEN = "sdjbtq1457162257";
+    public static final String WEI_XIN_TOKEN = "88zctest";
+
 
     public static final String BAR_CODE_EXT = "png";
 
@@ -25,9 +27,15 @@ public final class Constants {
 
     public static final Long VALIDATECODE_EXPIRED = 300000L;  //验证码过期时间
 
-    public static final String APPID = "wx16edfa0dda02edd5";
+//    public static final String APPID = "wx16edfa0dda02edd5";
 
-    public static final String WEI_XIN_ROOT_URL = "http://www.lepluspay.com";
+    public static final String APPID = "wx9a694d7de8b8b081";
+
+//    public static final String WEI_XIN_ROOT_URL = "http://www.lepluspay.com";
+
+    public static final String WEI_XIN_ROOT_URL = "http://www.vr52pk.com";
+
+//    public static final String WEI_XIN_ROOT_URL = "www.vr52pk.com";
 
     public static final Integer COOKIE_DISABLE_TIME = 604800;
     public static final Integer EXPRESS_COOKIE_DISABLE_TIME = 7200;

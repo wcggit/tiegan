@@ -249,6 +249,10 @@ public class WeixinController {
         ScanCodeOrder scanCodeOrder = scanCodeOrderService.findByOrderSid(sid);
         model.addAttribute("scanCodeOrder", scanCodeOrder);
         Merchant merchant = scanCodeOrder.getMerchant();
+        Long total=scanCodeOrder.getTotalPrice();
+        Long trans=scanCodeOrder.getTransferMoney();
+        long discount=Math.round((trans/100.0)/(total/100.0)*1000);
+        model.addAttribute("discount", discount);
         Long orderType = scanCodeOrder.getOrderType().getId();
         if (orderType == 12004) {
             return MvUtil.go("/weixin/deversionScanCodeOrder");
@@ -309,6 +313,11 @@ public class WeixinController {
             Model model) {
         OffLineOrder offLineOrder = offLineOrderService.findOffLineOrderByOrderSid(sid);
         model.addAttribute("order", offLineOrder);
+        Long total=offLineOrder.getTotalPrice();
+        Long trans=offLineOrder.getTransferMoney();
+        long discount=Math.round((trans/100.0)/(total/100.0)*1000);
+        model.addAttribute("discount", discount);
+
         Merchant merchant = offLineOrder.getMerchant();
         int rebateWay = offLineOrder.getRebateWay();
         if (rebateWay == 1) {
