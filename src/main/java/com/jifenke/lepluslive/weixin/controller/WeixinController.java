@@ -425,27 +425,8 @@ public class WeixinController {
      * 确认门店选择0
      */
     @RequestMapping(value = "/wx/confirmMerchantChoose", method = RequestMethod.GET)
-    public ModelAndView confirmMerchantChoose(Model model, Long merchantId) {
-        Subject currentUser = SecurityUtils.getSubject();
-        PrincipalCollection principals = currentUser.getPrincipals();
-        String userName = (String) principals.getPrimaryPrincipal();
-        MerchantUser merchantUser = merchantUserService.findByName(userName);
-        Merchant merchant = merchantService.findMerchantById(merchantId);
-        if (merchantUser != null) {
-            TemporaryMerchantUserShop temporaryMerchantUserShop = temporaryMerchantUserService.findByMerchantUserId(merchantUser.getId());
-            if (temporaryMerchantUserShop == null) {
-                TemporaryMerchantUserShop temporaryMerchantUserShop2 = new TemporaryMerchantUserShop();
-                temporaryMerchantUserShop2.setMerchant(merchant);
-                temporaryMerchantUserShop2.setMerchantUser(merchantUser);
-                temporaryMerchantUserService.addOne(temporaryMerchantUserShop2);
-            } else {
-                temporaryMerchantUserService.deleteOne(temporaryMerchantUserShop);
-                TemporaryMerchantUserShop temporaryMerchantUserShop2 = new TemporaryMerchantUserShop();
-                temporaryMerchantUserShop2.setMerchant(merchant);
-                temporaryMerchantUserShop2.setMerchantUser(merchantUser);
-                temporaryMerchantUserService.addOne(temporaryMerchantUserShop2);
-            }
-        }
+    public ModelAndView confirmMerchantChoose(Long merchantId) {
+        confirmMerchantChooseMethod(merchantId);
         return new ModelAndView("redirect:/wx/merchantCenter");
     }
 
@@ -796,7 +777,40 @@ public class WeixinController {
         return MvUtil.go("/weixin/signInfo");
     }
 
+    /**
+     * 确认门店选择 防止直接关闭没点完成
+     */
+    @RequestMapping(value = "/wx/beforeConfirmMerchantChoose", method = RequestMethod.GET)
+    public LejiaResult beforeConfirmMerchantChoose(Long merchantId) {
+        confirmMerchantChooseMethod(merchantId);
+        return  LejiaResult.ok();
+    }
 
+    /**
+     * 确认门店选择方法
+     */
+    public void confirmMerchantChooseMethod(Long merchantId) {
+        Subject currentUser = SecurityUtils.getSubject();
+        PrincipalCollection principals = currentUser.getPrincipals();
+        String userName = (String) principals.getPrimaryPrincipal();
+        MerchantUser merchantUser = merchantUserService.findByName(userName);
+        Merchant merchant = merchantService.findMerchantById(merchantId);
+        if (merchantUser != null) {
+            TemporaryMerchantUserShop temporaryMerchantUserShop = temporaryMerchantUserService.findByMerchantUserId(merchantUser.getId());
+            if (temporaryMerchantUserShop == null) {
+                TemporaryMerchantUserShop temporaryMerchantUserShop2 = new TemporaryMerchantUserShop();
+                temporaryMerchantUserShop2.setMerchant(merchant);
+                temporaryMerchantUserShop2.setMerchantUser(merchantUser);
+                temporaryMerchantUserService.addOne(temporaryMerchantUserShop2);
+            } else {
+                temporaryMerchantUserService.deleteOne(temporaryMerchantUserShop);
+                TemporaryMerchantUserShop temporaryMerchantUserShop2 = new TemporaryMerchantUserShop();
+                temporaryMerchantUserShop2.setMerchant(merchant);
+                temporaryMerchantUserShop2.setMerchantUser(merchantUser);
+                temporaryMerchantUserService.addOne(temporaryMerchantUserShop2);
+            }
+        }
+    }
     public Merchant getMerchant() {
         Subject currentUser = SecurityUtils.getSubject();
         PrincipalCollection principals = currentUser.getPrincipals();
