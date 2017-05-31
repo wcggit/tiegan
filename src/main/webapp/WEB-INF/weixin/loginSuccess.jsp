@@ -90,7 +90,7 @@
         radioList.eq(0).find('input').prop('checked',true);
         radioList.eq(0).find('span.icon-radio').removeAttr('class').attr('class', 'icon-yes icon-radio');
         radioList.eq(0).removeClass('initClass').addClass('focusClass');
-
+        beforeSwitchOverAck();
     })
 
     var state = {
@@ -116,6 +116,23 @@
         var merchantId = $("input[name=storeChoice]:checked").val();
         if (merchantId != "" && merchantId != null) {
             location.href = "/wx/confirmMerchantChoose?merchantId=" + merchantId;
+        }
+
+
+    }
+    //防止误操作
+    function beforeSwitchOverAck() {
+        var merchantId = $("input[name=storeChoice]:checked").val();
+        if (merchantId != "" && merchantId != null) {
+            $.ajax({
+                type: "get",
+                url: "/wx/beforeConfirmMerchantChoose?merchantId=" + merchantId,
+                async: false,
+                contentType: "application/json",
+                success: function (data) {
+
+                }})
+
         }
 
 
