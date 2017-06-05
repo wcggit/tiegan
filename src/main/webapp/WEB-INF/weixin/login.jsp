@@ -33,7 +33,7 @@
         <p class="ttl"><span style="color: #F3981E;font-size: 3.2vw">* </span>登录账号和密码后，您的微信号将自动和该账号绑定</p>
         <div id="pay-confrim" type="button" class="login login-disabled">登录</div>
     </div>
-    <p class="tel">客服电话：<a href="tel:014-0148-800">014-0148-800</a></p>
+    <p class="tel">客服电话：<a href="tel:400-0412-800">400-0412-800</a></p>
 </div>
 <script>
     var flag = true;
