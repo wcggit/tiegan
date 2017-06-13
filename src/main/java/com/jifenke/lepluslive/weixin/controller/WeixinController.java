@@ -318,7 +318,6 @@ public class WeixinController {
         long discount=Math.round((trans/100.0)/(total/100.0)*1000);
         model.addAttribute("discount", discount);
 
-        Merchant merchant = offLineOrder.getMerchant();
         int rebateWay = offLineOrder.getRebateWay();
         if (rebateWay == 1) {
             return MvUtil.go("/weixin/deversionOrder");
