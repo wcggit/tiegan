@@ -20,6 +20,19 @@
     <link rel="stylesheet" href="${lepayNew}/framework/common.css"/>
     <link rel="stylesheet" href="${lepayNew}/css/order.css"/>
     <script src="${lepayNew}/framework/zepto.min.js"></script>
+    <style>
+        #btn{
+            margin: 18vw auto 0;
+            width: 85vw;
+            height: 12vw;
+            text-align: center;
+            line-height: 12vw;
+            border-radius: 4px;
+            background-color: #F3981E;
+            color: #ffffff;
+            font-size: 4vw;
+        }
+    </style>
 </head>
 <body>
 <div class="main">
@@ -62,9 +75,19 @@
                                                 pattern="yyy-MM-dd HH:mm:ss"/></span>
         </li>
     </ul>
+    <div id="btn">打印小票</div>
 </div>
 <script>
-
+    $("#btn").on("touchstart", function () {
+        $(this).css({"background-color": "grey"}).unbind("touchstart");
+        $.post('/wx/printer/print', {orderSid:'${order.orderSid}'}, function (res) {
+            if (res.status == 200) {
+                alert("打印请求已发送，请稍候");
+            } else {
+                alert("暂无可用打印机,如需办理请联系客服");
+            }
+        });
+    })
 </script>
 </body>
 </html>
