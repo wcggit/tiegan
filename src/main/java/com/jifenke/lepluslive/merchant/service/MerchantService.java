@@ -3,8 +3,10 @@ package com.jifenke.lepluslive.merchant.service;
 import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantWallet;
+import com.jifenke.lepluslive.merchant.domain.entities.MerchantWalletLog;
 import com.jifenke.lepluslive.merchant.repository.MerchantRepository;
 import com.jifenke.lepluslive.merchant.repository.MerchantUserRepository;
+import com.jifenke.lepluslive.merchant.repository.MerchantWalletLogRepository;
 import com.jifenke.lepluslive.merchant.repository.MerchantWalletRepository;
 import com.jifenke.lepluslive.order.domain.entities.OffLineOrder;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class MerchantService {
   @Inject
   private MerchantUserRepository merchantUserRepository;
 
+  @Inject
+  private MerchantWalletLogRepository merchantWalletLogRepository;
+
 
 
   /**
@@ -47,20 +52,42 @@ public class MerchantService {
     return merchantWalletRepository.findByMerchant(merchant);
   }
 
-  @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-  public void paySuccess(OffLineOrder offLineOrder) {
-    MerchantWallet
-        merchantWallet =
-        findMerchantWalletByMerchant(offLineOrder.getMerchant());
-    merchantWallet
-        .setTransfersMoney(merchantWallet.getTransfersMoney() + offLineOrder.getTransferMoney());
-    merchantWallet.setTotalTransferMoney(
-        merchantWallet.getTotalTransferMoney() + offLineOrder.getTransferMoney());
-    merchantWalletRepository.save(merchantWallet);
-  }
 
   public MerchantUser findMerchantUserByName(String name) {
     return merchantUserRepository.findByName(name);
+  }
+
+
+  @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+  public void shareToMerchant(long shareMoney, Merchant merchant, String orderSid, Long type) {
+    if (shareMoney > 0) {
+      MerchantWalletLog log = new MerchantWalletLog();
+
+      MerchantWallet merchantWallet = findMerchantWalletByMerchant(merchant);
+
+      Long availableBalance = merchantWallet.getAvailableBalance();
+
+      log.setBeforeChangeMoney(availableBalance);
+      long afterShareMoney = availableBalance + shareMoney;
+
+      log.setAfterChangeMoney(afterShareMoney);
+
+      log.setMerchantId(merchant.getId());
+
+      log.setOrderSid(orderSid);
+
+      log.setType(type);
+
+      merchantWallet.setTotalMoney(merchantWallet.getTotalMoney() + shareMoney);
+
+      merchantWallet.setAvailableBalance(afterShareMoney);
+
+      merchantWalletLogRepository.save(log);
+
+      merchantWalletRepository.save(merchantWallet);
+    }
+
+
   }
 
 
