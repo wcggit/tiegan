@@ -401,4 +401,11 @@ public class Merchant {
   public void setMerchantUser(MerchantUser merchantUser) {
     this.merchantUser = merchantUser;
   }
+
+  public Merchant() {
+  }
+
+  public Merchant(Long id) {
+    this.id = id;
+  }
 }

@@ -7,12 +7,14 @@ import com.jifenke.lepluslive.groupon.service.GrouponService;
 import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
 import com.jifenke.lepluslive.merchant.domain.entities.MerchantUser;
 import com.jifenke.lepluslive.merchant.domain.entities.TemporaryMerchantUserShop;
+import com.jifenke.lepluslive.merchant.service.MerchantService;
 import com.jifenke.lepluslive.merchant.service.MerchantUserService;
 import com.jifenke.lepluslive.merchant.service.TemporaryMerchantUserService;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
  * Created by wcg on 2017/6/19.
  */
-@RestController("/wx")
+@RestController
 public class WeixinGrouponController {
 
   @Inject
@@ -37,15 +41,25 @@ public class WeixinGrouponController {
   @Inject
   private GrouponService grouponService;
 
+  @Inject
+  private MerchantService merchantService;
 
-  @RequestMapping(value = "/groupon", method = RequestMethod.GET)
+
+  @RequestMapping(value = "/wx/groupon", method = RequestMethod.GET)
   public ModelAndView goGrouponPage(Model model) {
     Merchant merchant = getMerchant();
     model.addAttribute("groupons", grouponService.findGrouponCodeByMerchant(merchant));
     return MvUtil.go("/weixin/groupon/groupon");
   }
 
-  @RequestMapping(value = "/groupon/{sid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/groupon/code/{offset}", method = RequestMethod.GET)
+  private LejiaResult findGrouponCodeByOffset(@PathVariable Integer offset){
+    Page
+        grouponCodeList =  grouponService.findGrouponCodeByOffset(offset,getMerchant().getId());
+    return LejiaResult.build(200,"",grouponCodeList);
+  }
+
+  @RequestMapping(value = "/wx/groupon/{sid}", method = RequestMethod.GET)
    public LejiaResult findGrouponCodeBySid(@PathVariable String sid) {
     GrouponCode grouponCode = grouponService.findGrouponCodeBySid(sid);
     if(grouponCode!=null){
@@ -60,7 +74,7 @@ public class WeixinGrouponController {
     }
   }
 
-  @RequestMapping(value = "/groupon/check/{sid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/wx/groupon/check/{sid}", method = RequestMethod.GET)
   public LejiaResult checkGrouponCode(@PathVariable String sid) {
     GrouponCode grouponCode = grouponService.findGrouponCodeBySid(sid);
     Subject currentUser = SecurityUtils.getSubject();
@@ -80,14 +94,15 @@ public class WeixinGrouponController {
   }
 
   public Merchant getMerchant() {
-    Subject currentUser = SecurityUtils.getSubject();
-    PrincipalCollection principals = currentUser.getPrincipals();
-    String userName = (String) principals.getPrimaryPrincipal();
-    MerchantUser merchantUser = merchantUserService.findByName(userName);
-    TemporaryMerchantUserShop
-        temporaryMerchantUserShop =
-        temporaryMerchantUserService.findByMerchantUserId(merchantUser.getId());
-    Merchant merchant = temporaryMerchantUserShop.getMerchant();
+//    Subject currentUser = SecurityUtils.getSubject();
+//    PrincipalCollection principals = currentUser.getPrincipals();
+//    String userName = (String) principals.getPrimaryPrincipal();
+//    MerchantUser merchantUser = merchantUserService.findByName(userName);
+//    TemporaryMerchantUserShop
+//        temporaryMerchantUserShop =
+//        temporaryMerchantUserService.findByMerchantUserId(merchantUser.getId());
+//    Merchant merchant = temporaryMerchantUserShop.getMerchant();
+    Merchant merchant = merchantService.findMerchantById(1L);
     return merchant;
   }
 

@@ -3,6 +3,9 @@ package com.jifenke.lepluslive.groupon.repository;
 import com.jifenke.lepluslive.groupon.domain.entities.GrouponCode;
 import com.jifenke.lepluslive.merchant.domain.entities.Merchant;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -15,4 +18,6 @@ public interface GrouponCodeRepository extends JpaRepository<GrouponCode,Long> {
   List<GrouponCode> findByMerchantAndState(Merchant merchant, int i);
 
   GrouponCode findOneBySid(String sid);
+
+  Page findAll(Specification<GrouponCode> whereClause, Pageable pageRequest);
 }

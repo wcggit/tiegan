@@ -34,6 +34,7 @@ public class GrouponOrder {
 
   private Date completeDate;
 
+  @ManyToOne
   private LeJiaUser leJiaUser;
 
   private Long totalPrice=0L;
@@ -60,6 +61,14 @@ public class GrouponOrder {
   @OneToMany
   @JsonIgnore
   private List<GrouponCode> grouponCodes; //一个订单可能对应多个团购码
+
+  public Integer getOrderState() {
+    return orderState;
+  }
+
+  public void setOrderState(Integer orderState) {
+    this.orderState = orderState;
+  }
 
   public String getOrderId() {
     return orderId;

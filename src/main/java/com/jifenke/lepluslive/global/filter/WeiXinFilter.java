@@ -42,7 +42,7 @@ public class WeiXinFilter extends AuthorizationFilter {
     String action = request.getRequestURI();
     System.out.println(action);
     if (action.equals("/wx") || action.indexOf("/wx/userRegister") != -1 || action
-        .equals("/wx/pay")) {
+        .equals("/wx/pay")||action.indexOf("/wx/groupon") != -1) {
       return true;
     }
     String ua = request.getHeader("user-agent")
