@@ -7,7 +7,9 @@ import com.jifenke.lepluslive.lejiauser.domain.entities.LeJiaUser;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -58,7 +60,7 @@ public class GrouponOrder {
 
   private Integer orderState = 0;  // 0=待使用|1=已使用|2=退款
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "grouponOrder")
   @JsonIgnore
   private List<GrouponCode> grouponCodes; //一个订单可能对应多个团购码
 

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.jar.Attributes;
 
 /**
  * Created by xf on 2016/9/27.
@@ -26,5 +27,11 @@ public class DictionaryService {
        return  list.get(0);
     }
     return null;
+  }
+
+  @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+  public Dictionary findDictionaryById(Long id) {
+
+    return dictionaryRepository.findOne(id);
   }
 }

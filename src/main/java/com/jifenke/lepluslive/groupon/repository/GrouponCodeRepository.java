@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,5 +20,8 @@ public interface GrouponCodeRepository extends JpaRepository<GrouponCode,Long> {
 
   GrouponCode findOneBySid(String sid);
 
-  Page findAll(Specification<GrouponCode> whereClause, Pageable pageRequest);
+  Page<GrouponCode> findAll(Specification<GrouponCode> whereClause, Pageable pageRequest);
+
+  List<GrouponCode> findByMerchantAndCodeTypeAndStateAndCheckDateBetween(Merchant merchant, int codeType, int i,
+                                                            Date start, Date end);
 }

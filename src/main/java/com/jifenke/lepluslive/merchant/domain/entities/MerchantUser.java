@@ -143,6 +143,10 @@ public class MerchantUser {
     public MerchantUser() {
     }
 
+    public MerchantUser(Long id) {
+        this.id = id;
+    }
+
     public MerchantUser(Long id, String merchantName) {
         this.id = id;
         this.merchantName = merchantName;

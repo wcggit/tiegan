@@ -57,8 +57,10 @@ public class ttt {
   private MerchantWeiXinUserService merchantWeiXinUserService;
 
 
+
   @Test
   public void tttt() {
+
     merchantWeiXinUserService
         .bindMerchantUser("o8WkOxMW5nqXuIaurvgge-HuAtWM",
                           merchantService.findMerchantUserByName("2323"));

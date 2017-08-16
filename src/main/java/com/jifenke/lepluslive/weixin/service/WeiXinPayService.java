@@ -4,12 +4,15 @@ import com.jifenke.lepluslive.global.util.MD5Util;
 import com.jifenke.lepluslive.global.util.MvUtil;
 import com.jifenke.lepluslive.global.util.WeixinPayUtil;
 import com.jifenke.lepluslive.order.domain.entities.OffLineOrder;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -38,6 +41,8 @@ public class WeiXinPayService {
   @Value("${weixin.jsapiTicket}")
   private String jsapiTicket;
 
+  @Inject
+  private DictionaryService dictionaryService;
 
   /**
    * 封装订单参数
@@ -148,5 +153,20 @@ public class WeiXinPayService {
                request.getRequestURI() +
                (request.getQueryString() != null ? "?" + request.getQueryString() : "");
     return s;
+  }
+
+  public String getJsapiSignature(HttpServletRequest request, String noncestr, Long timestamp) {
+    StringBuffer sb = new StringBuffer();
+    sb.append("jsapi_ticket=");
+    sb.append(dictionaryService.findDictionaryById(10L).getValue());
+    sb.append("&noncestr=");
+    sb.append(noncestr);
+    sb.append("&timestamp=");
+    sb.append(timestamp);
+    sb.append("&url=");
+    sb.append(getCompleteRequestUrl(request));
+    log.debug("JsapiSignature" + sb.toString());
+    log.debug("sha1Signature" + DigestUtils.sha1Hex(sb.toString()));
+    return DigestUtils.sha1Hex(sb.toString());
   }
 }

@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface GrouponOrderRepository extends JpaRepository<GrouponOrder,Long> {
 
+  GrouponOrder findOneByOrderSid(String sid);
 }
